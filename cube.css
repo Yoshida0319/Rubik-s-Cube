@@ -204,15 +204,11 @@ button.hidari:hover {
     border: 3px solid gray;
     border-radius: 5px;
 }
-.sakuseisuru{
-    font-size: 20px;
-    line-height: 0px;
-}
 .kokonikaku{
-    margin: 30px auto 0px auto;
+    margin: 0 auto 0px auto;
     width: 346px;
     height: 80px;
-    font-size: 15px;
+    font-size: 20px;
 }
 .kakunoka{
     text-align: center;
