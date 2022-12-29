@@ -119,18 +119,21 @@ body{
     display: flex;
 }
 .hitotume{
+    font-size: large;
     width: 58px;
     height: 58px;
     border: 1px solid gray;
     opacity: 75%;
 }
 .hutatume{
+    font-size: large;
     width: 58px;
     height: 58px;
     border: 1px solid gray;
     opacity: 75%;
 }
 .mittume{
+    font-size: large;
     width: 58px;
     height: 58px;
     border: 1px solid gray;
