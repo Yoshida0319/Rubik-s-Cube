@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://kit.fontawesome.com/5685e6c27d.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="apple-touch-icon-180x180.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="android-chrome-192x192.png" sizes="192x192">
+    <head prefix="og: https://ogp.me/ns#">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:url" content="file:///Users/kensei/Desktop/HTML/rubik's/cube.html" />
+    <meta property="og:title" content="Rubik's Cube" />
+    <meta property="og:description" content="Rubik's Cubeのソルブアルゴリズムです。" />
+    <meta property="og:type" content="artycle"/>
+    <meta property="og:image" content="R(表示用).png"/>
+    <title>rubik's cube</title>
+    <link rel="stylesheet" href="cube.css">
+</head>
+<body>
+    <div class="dezain">
+        <a href="file:///Users/kensei/Desktop/HTML/rubik's/cube.html"><img src="タイトル.png" alt="タイトル" class="tatitoru"></a>
+        <button id="sukura" class="kakunoka">スクランブル</button>
+        </div>
+    <div class="honntai">
+        <div class="kakimasyou">
+        </div>
+        <div class="siiesude">
+            <div class="bun">
+                <p id="bunsyou" class="bunsyou">タップして色を入力してください</p>
+                <p id="hosoku" class="hosoku">※センターキューブの位置関係に気をつけながら間違いのないように入力ください。</p>
+            </div>
+            <button id="button" class="tesut">スタート</button>
+            <div class="hyouzi ima">
+                <button id="uee" class="ue"></button>
+                <div class="itiretume">
+                    <button id="hidarii" class="hidari"></button>
+                    <div>
+                        <div class="itiretume">
+                            <button id="aa" class="nisenn"></button>
+                            <button id="bb" class="nisenn"></button>
+                            <button id="cc" class="nisenn"></button>
+                        </div>
+                        <div class="itiretume">
+                            <button id="dd" class="nisenn"></button>
+                            <button id="ee" class="nisenn">
+                                <img id="rogoma" class="rogoma" src="R(表示用).png" alt="ロゴマーク">
+                                <div id="kikann" class="kikann"></div>
+                            </button>
+                            <button id="ff" class="nisenn"></button>
+                        </div>
+                        <div class="itiretume">
+                            <button id="gg" class="nisenn"></button>
+                            <button id="hh" class="nisenn"></button>
+                            <button id="ii" class="nisenn"></button>
+                        </div>
+                    </div>
+                    <button id="migii" class="migi"></button>
+                </div>
+                <button id="sitaa" class="sita"></button>
+                <button id="haisyy" class="haisyoku">世界配色</button>
+            </div>
+            <div class="hyouzi">
+                <button id="tugi" class="tugi">次へ</button>
+                <div class="diamond">
+                    <div class="itiretume">
+                        <div id="a" class="hitotume"></div>
+                        <div id="b" class="hitotume"></div>
+                        <div id="c" class="hitotume"></div>
+                    </div>
+                    <div class="itiretume">
+                        <div id="d" class="hitotume"></div>
+                        <div id="e" class="hitotume"></div>
+                        <div id="f" class="hitotume"></div>
+                    </div>
+                    <div class="itiretume">
+                        <div id="g" class="hitotume"></div>
+                        <div id="h" class="hitotume"></div>
+                        <div id="i" class="hitotume"></div>
+                    </div>
+                </div>
+                <div class="korena">
+                    <div class="diamon">
+                        <div class="itiretume">
+                            <div id="s" class="hutatume"></div>
+                            <div id="t" class="hutatume"></div>
+                            <div id="u" class="hutatume"></div>
+                        </div>
+                        <div class="itiretume">
+                            <div id="v" class="hutatume"></div>
+                            <div id="w" class="hutatume"></div>
+                            <div id="x" class="hutatume"></div>
+                        </div>
+                        <div class="itiretume">
+                            <div id="y" class="hutatume"></div>
+                            <div id="z" class="hutatume"></div>
+                            <div id="zz" class="hutatume"></div>
+                        </div>
+                    </div>
+                    <div class="diamo">
+                        <div class="itiretume">
+                            <div id="j" class="mittume"></div>
+                            <div id="k" class="mittume"></div>
+                            <div id="l" class="mittume"></div>
+                        </div>
+                        <div class="itiretume">
+                            <div id="m" class="mittume"></div>
+                            <div id="n" class="mittume"></div>
+                            <div id="o" class="mittume"></div>
+                        </div>
+                        <div class="itiretume">
+                            <div id="p" class="mittume"></div>
+                            <div id="q" class="mittume"></div>
+                            <div id="r" class="mittume"></div>
+                        </div>
+                    </div>
+                </div>
+                <img id="ueniku" class="ueniku" src="R(表示用).png" alt="ロゴマーク">
+                <img id="hidariniku" class="hidariniku" src="R(表示用).png" alt="ロゴマーク">
+                <img id="maeniku" class="maeniku" src="R(表示用).png" alt="ロゴマーク">
+            </div>
+        </div>
+        <div class="atara">
+            <p class="sakuseisuru">ランダムでスクランブルを作成する</p>
+            <div class="kokonikaku">
+                <p id="kokonikaku"></p>
+            </div>
+            <p id="poppo" class="poppo">スクランブルの結果を適用させる</p>
+            <p id="poppu" class="poppu">リセット</p>
+            <button id="tekiyouya" class="tekiyouya">
+                <i class="fa-sharp fa-solid fa-download"></i>
+            </button>
+            <button id="mouitido" class="mouitido">
+                <i class="fa-sharp fa-solid fa-rotate-right"></i>
+            </button>
+        </div>
+    <script src="cube.js"></script>
+</body>
+</html>

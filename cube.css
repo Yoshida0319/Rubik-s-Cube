@@ -1,0 +1,323 @@
+.hyouzi{
+    display: none;
+}
+.hyouzi.ima{
+    background-color: rgb(136, 191, 239);
+    width: 406px;
+    height: 406px;
+    display: block;
+    text-align: center;
+    border: 3px solid darkgray;
+    border-radius: 3px;
+}
+body{
+    background-color: skyblue;
+    margin:0;
+}
+.honntai{
+    max-width: 420px;
+    margin: 0 auto;
+    width: fit-content;
+}
+.itiretume{
+    margin:auto auto auto auto;
+    display: flex;
+}
+.nisenn{
+    border:1px solid gray;
+    border-radius: 3px;
+    width: 100px;
+    height:100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-clip: padding-box;
+    font-size: 30px;
+}
+.tesut{
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    padding: 2px 2px 2px 2px;
+    color: hsl(28,45%,35%);
+    background: #4db56a;
+    font-weight:600;
+    margin: 10px;
+    width: 100px;
+    height: 45px;
+}
+.ue{
+    margin: 15px;
+    border: none;
+    width: 50px;
+    height: 20px;
+    clip-path: polygon(0 100%, 100% 100%, 50% 20%);
+    opacity: 75%;
+
+}
+.sita{
+    position: relative;
+    left: 25px;
+    margin: 15px;
+    border: none;
+    width: 50px;
+    height: 20px;
+    clip-path: polygon(0 0, 100% 0%, 50% 80%);
+    opacity: 75%;
+
+}
+.hidari{
+    margin:auto 15px auto 15px;
+    border: none;
+    width: 20px;
+    height: 50px;
+    clip-path: polygon(100% 0, 100% 100%, 20% 50%);
+    opacity: 75%;
+
+}
+.migi{
+    margin:auto 15px auto 15px;
+    border: none;
+    width: 20px;
+    height: 50px;
+    clip-path: polygon(0 0, 0% 100%, 80% 50%);
+    opacity: 75%;
+
+}
+.diamond{
+    margin: -35px auto 0px auto;
+    width: 180px;
+    height: 180px;
+    background: silver;
+    transform: rotate(-45deg) skew(15deg, 15deg);
+    line-height:60px;
+    border: 3px solid gray;
+}
+.diamon{
+    margin-right: -9px;
+    width: 180px;
+    height: 180px;
+    background: silver;
+    transform: rotate(15deg) skew(15deg, 15deg);
+    line-height:60px;
+    border: 3px solid gray;
+}
+.diamo{
+    margin-left: -9px;
+    width: 180px;
+    height: 180px;
+    background: silver;
+    transform: rotate(-15deg) skew(-15deg, -15deg);
+    line-height:60px;
+    border: 3px solid gray;
+}
+.korena{
+    padding: 0px;
+    margin: -40px 0px 0px 26px;
+    display: flex;
+}
+.hitotume{
+    width: 58px;
+    height: 58px;
+    border: 1px solid gray;
+    opacity: 75%;
+}
+.hutatume{
+    width: 58px;
+    height: 58px;
+    border: 1px solid gray;
+    opacity: 75%;
+}
+.mittume{
+    width: 58px;
+    height: 58px;
+    border: 1px solid gray;
+    opacity: 75%;
+}
+.bunsyou{
+    font-size: 20px;
+    line-height: 20px;
+    overflow-wrap: break-word;
+    font-weight: 900;
+    color: brown;
+}
+.hosoku{
+    font-size: 15px;
+    overflow-wrap: break-word;
+}
+.haisyoku{
+    background-color: yellow;
+    color: black;
+    position: relative;
+    left: 130px;
+    top: -10px;
+    width: 45px;
+    height: 45px;
+}
+.bun{
+    margin: 0;
+    width: 410px;
+    height: 105px;
+}
+.tugi{
+    background-color: hsl(0,0%,60%);
+    position: relative;
+    left: 160px;
+    margin: 10px;
+    width: 60px;
+    height: 30px;
+}
+button.ue:hover {
+    opacity: 100%;
+}
+button.sita:hover {
+    opacity: 100%;
+}
+button.migi:hover {
+    opacity: 100%;
+}
+button.hidari:hover {
+    opacity: 100%;
+}
+.siiesude{
+    position: absolute;
+    top: 70px;
+    background-color: skyblue;
+}
+.kakimasyou{
+    width: 412px;
+}
+.atara{
+    display: none;
+    animation: fadeIn 0.3s;
+}
+.atara.visi{
+    position: absolute;
+    padding: 15px;
+    top: 65px;
+    display: block;
+    width: 376px;
+    height: 150px;
+    background-color: lightgray;
+    border: 3px solid gray;
+    border-radius: 5px;
+}
+.sakuseisuru{
+    font-size: 20px;
+    line-height: 0px;
+}
+.kokonikaku{
+    margin: 30px auto 0px auto;
+    width: 346px;
+    height: 80px;
+    font-size: 15px;
+}
+.kakunoka{
+    text-align: center;
+    font-size: small;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 2px 2px 2px 2px;
+    color: hsl(28,45%,35%);
+    background: #58da7d;
+    width: 90px;
+    height: 30px;
+    position: relative;
+    left: 140px;
+    top: 25px;
+}
+.dezain{
+    margin: auto auto;
+    display: flex;
+    position: relative;
+    border-radius: 0 0 5px 5px;
+    top:0px;
+    width: 450px;
+    height: 60px;
+    background-color: #4db56a;
+}
+.tatitoru{
+    position: relative;
+    left: 15px;
+    width: 212px;
+    height: 57px;
+}
+.poppo{
+    display: none;
+    position: absolute;
+    font-size: small;
+    animation: fadeIn 0.6s;
+    top: 105px;
+    background-color: darkgray;
+    border: 1px black solid;
+}
+.poppu{
+    display: none;
+    position: absolute;
+    font-size: small;
+    animation: fadeIn 0.5s;
+    top: 105px;
+    left: 50px;
+    background-color: darkgray;
+    border: 1px black solid;
+}
+.tekiyouya{
+    position: absolute;
+    top: 145px;
+}
+.mouitido{
+    position: absolute;
+    top: 145px;
+    left: 50px;
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+@media screen and (max-width:480px) {
+    .honntai{
+        margin: 2.3vh;
+    }
+}
+.rogoma{
+    display: block;
+    position: relative;
+    top: 30px;
+    width: 80px;
+    height: 80px;
+}
+.kikann{
+    display: block;
+    padding: 30px;
+    width: 100px;
+    height:100px;
+}
+.ueniku{
+    display: none;
+    width: 58px;
+    height: 58px;
+    transform: rotate(-45deg) skew(15deg, 15deg);
+    position: relative;
+    top: -268px;
+    left: 174px;
+}
+.hidariniku{
+    display: none;
+    width: 58px;
+    height: 58px;
+    transform: rotate(15deg) skew(15deg, 15deg);
+    position: relative;
+    top: -122px;
+    left: 90px;
+}
+.maeniku{
+    display: none;
+    width: 58px;
+    height: 58px;
+    transform: rotate(-15deg) skew(-15deg, -15deg);
+    position: relative;
+    top: -121.5px;
+    left: 258px;
+}
