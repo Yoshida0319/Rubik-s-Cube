@@ -959,6 +959,7 @@ function ugokasitadesyou(){
         iinaiina[forfor].innerText='';
     }
     const nya=hourensouda[0];
+    console.log(hourensouda);
     if(nya===0){
         s.innerText='←';
         t.innerText='←';
@@ -1743,23 +1744,46 @@ function hanndannkizyunn(){
 }
 function ollll(){
     zyoutaihaaku++;
+    console.log(zyoutaiizyou);
+    console.log(ezzikana,kounaakana);
     let outihekaero=[0,0];
     for (let nanikakou = 0; nanikakou < 4; nanikakou++) {
         if(ezzikana[nanikakou*2]===0){
             outihekaero[1]++;
-            if(outihekaero[1]===zyoutaiizyou[1]){
-                ezzikana[nanikakou*2-1]=ezzikana[nanikakou*2];
-                ezzikana[nanikakou*2]=0;
+            if(outihekaero[1]===1 && zyoutaiizyou[1]!==0){
+                console.log('nyaaaa');
+                ezzikana[nanikakou*2]=ezzikana[nanikakou*2+1];
+                ezzikana[nanikakou*2+1]=0;
             }
         }
     }
     for (let nanikakoukana = 0; nanikakoukana < 4; nanikakoukana++) {
         if(kounaakana[nanikakoukana*3]===0){
             outihekaero[0]++;
-            if(outihekaero[0]===zyoutaiizyou[0]){
-                kounaakana[nanikakoukana*3-2]=kounaakana[nanikakoukana*3-1]+kounaakana[nanikakoukana*3];
-                kounaakana[nanikakoukana*3-1]=0;
-                kounaakana[nanikakoukana*3]=0;
+            if(outihekaero[0]===1 && zyoutaiizyou[0]!==0){
+                if(zyoutaiizyou[0]===1){
+                    if(kounaakana[nanikakoukana*3+1]!==0){
+                        console.log('nyeeee');
+                        kounaakana[nanikakoukana*3+2]=kounaakana[nanikakoukana*3+1];
+                        kounaakana[nanikakoukana*3+1]=0;
+                        kounaakana[nanikakoukana*3]=0;
+                    }else if(kounaakana[nanikakoukana*3+2]!==0){
+                        console.log('nyeeee');
+                        kounaakana[nanikakoukana*3]=kounaakana[nanikakoukana*3+2];
+                        kounaakana[nanikakoukana*3+2]=0;
+                        kounaakana[nanikakoukana*3+1]=0;
+                    }
+                }else if(zyoutaiizyou[0]===2){
+                    if(kounaakana[nanikakoukana*3+1]!==0){
+                        kounaakana[nanikakoukana*3]=kounaakana[nanikakoukana*3+1];
+                        kounaakana[nanikakoukana*3+2]=0;
+                        kounaakana[nanikakoukana*3+1]=0;
+                    }else if(kounaakana[nanikakoukana*3+2]!==0){
+                        kounaakana[nanikakoukana*3+1]=kounaakana[nanikakoukana*3+2];
+                        kounaakana[nanikakoukana*3]=0;
+                        kounaakana[nanikakoukana*3+2]=0;
+                    }
+                }
             }
         }
     }
@@ -1858,6 +1882,10 @@ function ollll(){
         }else if(outihekaero[0]===2){
             bunsyou.innerText='';
             hosoku.innerText='';
+            tugihe.style.visibility ="hidden";
+            koredake=2;
+            button.innerText='';
+            button.innerText='別のスクランブルへ';
             bunsyou.innerText='パリティ(決して揃わない形)になっています';
             if(zyoutaiizyou[0]+zyoutaiizyou[1]===0){
                 hosoku.innerText='位置が入れ替わっているキューブがあります。';
@@ -1871,10 +1899,10 @@ function ollll(){
         }else if(outihekaero[3]===2){
             hourensouda=[1];
         }else if(zyoutaiizyou[2]===1){
-            kounaakana[2]=kounaakana[1];
-            kounaakana[1]=kounaakana[4];
-            kounaakana[4]=kounaakana[2];
-            kounaakana[2]=0;
+            kounaakana[1]=kounaakana[0];
+            kounaakana[0]=kounaakana[3];
+            kounaakana[3]=kounaakana[1];
+            kounaakana[1]=0;
             ppll();
         }else if(zyoutaiizyou[0]+zyoutaiizyou[1]===0){
             if(sukippu===3){
@@ -2023,19 +2051,27 @@ function oll(){
         }
     }
     if(hourensouda.length===0){
-        if(zyoutaiizyou===[0,0,0]){
-            zyoutaiizyou=[1,0];
+        if(zyoutaiizyou[0]===0 && zyoutaiizyou[1]===0 && zyoutaiizyou[2]===0){
+            zyoutaiizyou=[1,0,0];
             ollll();
-        }else if(zyoutaiizyou===[1,0,0]){
-            zyoutaiizyou=[0,1];
+        }else if(zyoutaiizyou[0]===1 && zyoutaiizyou[1]===0 && zyoutaiizyou[2]===0){
+            zyoutaiizyou=[2,0,0];
+            hanndannnihairu();
             ollll();
-        }else if(zyoutaiizyou===[0,1,0]){
-            zyoutaiizyou=[1,1]
+        }else if(zyoutaiizyou[0]===2 && zyoutaiizyou[1]===0 && zyoutaiizyou[2]===0){
+            zyoutaiizyou=[0,1,0]
+            hanndannnihairu();
+            ollll();
+        }else if(zyoutaiizyou[0]===0 && zyoutaiizyou[1]===1 && zyoutaiizyou[2]===0){
+            zyoutaiizyou=[1,1,0]
+            hanndannnihairu();
+            ollll();
+        }else if(zyoutaiizyou[0]===1 && zyoutaiizyou[1]===1 && zyoutaiizyou[2]===0){
+            zyoutaiizyou=[2,1,0]
+            hanndannnihairu();
             ollll();
         }
     }
-    console.log(ezzikana,kounaakana);
-    console.log(hourensouda);
 }
 function ppll(){
     let identy=[1,2,3,4,1,2,3]
@@ -2142,8 +2178,6 @@ function ppll(){
         }
     }
     console.log(ezzikana,kounaakana);
-    console.log(hosoku);
-    console.log(hourensouda);
     if(hourensouda.length===0){
         zyoutaiizyou[2]=1;
         ollll();
@@ -2173,9 +2207,9 @@ function ehutuueru(){
             hourensouda=[9,0,0,8,0,0,9,0,8];
         }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[index]){
             hourensouda=[2,0,0,3,0,0,2,1,3];
-        }else if(hentai===12 && hantei===ezzi[2+index]+1){
+        }else if(hentai===12 && hantei===ezzi[2+index]){
             hourensouda=[9,0,8,0,2,1,3];
-        }else if(hentai===12 && hantei===ezzi[3+index]){
+        }else if(hentai===12 && hantei===ezzi[3+index]+1){
             hourensouda=[2,1,3,1,9,0,8];
         }else if(hentai===kounaa[1+index] && hantei===ezzi[index]+1){
             hourensouda=[9,0,0,8,1,9,0,8];
@@ -2210,6 +2244,7 @@ function ehutuueru(){
         }else if(hentai===14 && hantei===ezzi[2+index]+1){
             hourensouda=[2,1,3,9,1,8];
         }else if(hentai===13 && hantei===ezzi[index]+1){
+            console.log('koredayona');
             hourensouda=[9,0,8,1,9.0,8];
         }else if(hentai===13 && hantei===ezzi[3+index]){
             hourensouda=[9,0,8,2,0,3];
@@ -2223,7 +2258,7 @@ function ehutuueru(){
             hourensouda=[2,0,3,0,9,1,8];
         }else if(hentai===kounaa[index] && hantei===9){
             hourensouda=[2,1,3,9,0,0,8];
-        }else if(hentai===kounaa[index]+1 && hantei===8){
+        }else if(hentai===kounaa[index] && hantei===8){
             hourensouda=[9,9,1,9,9,1,9,9,0,0,9,9];
         }
         if(hourensouda.length>0){
@@ -2238,15 +2273,15 @@ function ehutuueru(){
         }
     }
     if(hentai===12 && hantei===9){
-        hourensouda=[9,9,0,0,3,9,9,2,0,0,8,1,8]
+        hourensouda=[9,9,0,0,3,9,9,2,0,0,8,1,8];
     }else if(hentai===13 && hantei===8){
-        hourensouda=[2,0,0,2,0,3,0,2,0,0,2,2]
+        hourensouda=[2,0,0,2,0,3,0,2,0,0,2,2];
     }else if(hentai===14 && hantei===8){
-        hourensouda=[9,0,0,9,1,8,1,9,0,0,9,9]
+        hourensouda=[9,0,0,9,1,8,1,9,0,0,9,9];
     }else if(hentai===13 && hantei===9){
-        hourensouda=[9,0,9,1,5,0,4,9,9]
+        hourensouda=[9,0,9,1,5,0,4,9,9];
     }else if(hentai===14 && hantei===9){
-        hourensouda=[2,1,2,0,10,1,11,2,2]
+        hourensouda=[2,1,2,0,10,1,11,2,2];
     }
     if(hourensouda.length===0){
         let neruwa=[];
@@ -2289,7 +2324,6 @@ function ehutuueru(){
         }
     }
     console.log(hantei,hentai);
-    console.log(hourensouda);
 }
 function sirokurosu(){
     if(ezzikana[0]===9){
@@ -2303,7 +2337,7 @@ function sirokurosu(){
     }else if(ezzikana[4]===9){
         hourensouda=[0,0,8,8];
     }else if(ezzikana[5]===9){
-        hourensouda=[0,3,9,2];
+        hourensouda=[0,3,8,2];
     }else if(ezzikana[6]===9){
         hourensouda=[1,8,8];
     }else if(ezzikana[7]===9){
@@ -2340,7 +2374,6 @@ function sirokurosu(){
         hourensouda=[5,9];
     }
     console.log(ezzikana.indexOf(9));
-    console.log(hourensouda);
 }
 function tukuttemita(){
     let nakanaka = Math.floor( Math.random() * 6 );
