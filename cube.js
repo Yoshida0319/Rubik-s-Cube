@@ -52,8 +52,45 @@ const kikann=document.getElementById("kikann");
 const ueniku=document.getElementById("ueniku");
 const hidariniku=document.getElementById("hidariniku");
 const maeniku=document.getElementById("maeniku");
+const tesuutesuu=document.getElementById("tesuutesuu");
+const nokoritesuu=document.getElementById("nokoritesuu");
+const setumeisurutoko=document.getElementById("setumeisurutoko")
+const oooumo=document.getElementById("oooumo");
+const setumeisuru=document.getElementById("setumeisuru");
+const sakuzyoaikon=document.getElementById("sakuzyoaikon");
+const Umen=document.getElementById("Umen");
+const Dmen=document.getElementById("Dmen");
+const Rmen=document.getElementById("Rmen");
+const Lmen=document.getElementById("Lmen");
+const Fmen=document.getElementById("Fmen");
+const Bmen=document.getElementById("Bmen");
+const nyakanya=document.getElementById("nyakanya");
+const sakuzyoikon=document.getElementById("sakuzyoikon");
+const korekarasa=document.getElementById("korekarasa");
+const hontokana=document.getElementById("hontokana");
+const tabunndakedo=document.getElementById("tabunndakedo");
+const kaminosuuzi=document.getElementById("kaminosuuzi");
+const HTM=document.getElementById("HTM");
+const CFOP=document.getElementById("CFOP");
+const setumeisurut=document.getElementById("setumeisurut");
+const basyodori=document.getElementById("basyodori");
+const kurosunonamae=document.getElementById("kurosunonamae");
+const sitanidann=document.getElementById("sitanidann");
+const uedannnomuki=document.getElementById("uedannnomuki");
+const uedannnoiti=document.getElementById("uedannnoiti");
+const zyoukyoukakuninnyou=document.getElementById("zyoukyoukakuninnyou");
+const hyakuhitotume=document.getElementById("hyakuhitotume");
+const hyakuhutatume=document.getElementById("hyakuhutatume");
+const hidariueniiku=document.getElementById("hidariueniiku");
+const migiueniiku=document.getElementById("migiueniiku");
+const hidariniiku=document.getElementById("hidariniiku");
+const miginiiku=document.getElementById("miginiiku");
+const hidarisitaniiku=document.getElementById("hidarisitaniiku");
+const migisitaniiku=document.getElementById("migisitaniiku");
 const ezzi=[0,2,4,6,0,2,4];
-const kounaa=[0,3,6,9,0,3,6]
+const kounaa=[0,3,6,9,0,3,6];
+var tukuttemaire=0;
+var mennnosuuzi=0;
 var nasake='';
 var konaina=10;
 var sukippu=0;
@@ -70,6 +107,7 @@ var zyoutaiizyou=[0,0,0];
 const suuzidatte=[8,7,6,5,4,3,2,1,0];
 const raretusureba=[2,5,8,1,4,7,0,3,6];
 const yakudatuda=[6,3,0,7,4,1,8,5,2];
+var toukatusimasyou=[];
 var siro=[6,6,6,6,0,6,6,6,6];
 var aka=[6,6,6,6,1,6,6,6,6];
 var ao=[6,6,6,6,2,6,6,6,6];
@@ -86,15 +124,10 @@ var haisyoku=0;
 var zyoutai=0;//0=siro 1=aka 2=ao 3=daidai 4=midori 5=ki
 const idraretune=[aa,bb,cc,dd,ee,ff,gg,hh,ii];
 var idraretu=[siro,aka,ao,daidai,midori,kiiro];
+var supiidokyuubutekikaitou=0;
 inne();
 sukura.onclick=()=>{
-    if(koredake===0){
-        koredake=10;
-        document.getElementsByClassName('atara')[0].classList.toggle('visi');
-    }else if(koredake===10){
-        koredake=0;
-        document.getElementsByClassName('atara')[0].classList.toggle('visi');
-    }
+    document.getElementsByClassName('atara')[0].classList.toggle('visi');
     nasake='';
     kokonikaku.innerText='';
     hourensouda=[];
@@ -460,13 +493,25 @@ hidarii.onclick=()=>{
     hidariya();
 }
 tugihe.onclick=()=>{
-    hyouzisitadesyou();
-    if(hourensouda.length===0){
-        hanndannnihairu();
-        hanndannkizyunn();
-    }
-    ugokasitadesyou();
     inonotarou();
+    ugokasitadesyou();
+    hyouzisitadesyou();
+    kazoemaasyou();
+}
+document.onkeydown=function(event){
+        if(koredake===0 || koredake===2){
+        if(event.key==='ArrowUp'){
+            ueya(a,0,1);
+        }else if(event.key==='ArrowDown'){
+            sitaya(a,0,1);
+        }else if(event.key==='ArrowRight'){
+            migiya(a,0,1);
+        }else if(event.key==='ArrowLeft'){
+            hidariya(a,0,1);
+        }else{
+            return;
+        }
+    }
 }
 window.addEventListener("load", function(e){
     window.addEventListener('keydown', function(e){
@@ -659,8 +704,11 @@ button.onclick=()=>{
         mutyakutyayaruwa=0;
         kinyuunohanndann();
         if(mutyakutyayaruwa===0){
+            toukatusimasyou=[];
             hourensouda=[];
             sukura.style.display='none';
+            nokoritesuu.style.display='flex';
+            zyoukyoukakuninnyou.style.display='none';
             tugihe.style.visibility ="visible";
             koredake=1;
             button.innerText='';
@@ -669,16 +717,43 @@ button.onclick=()=>{
             bunsyou.innerText='';
             hosoku.innerText='';
             bunsyou.innerText='矢印に従って回してください';
-            hosoku.innerText='※三列に矢印がある場合は持ち替えです。指示通りに持ち替えてください。';
+            hosoku.innerText='持つ方向に気を付けてください。';
             document.getElementsByClassName('hyouzi')[0].classList.toggle('ima');
             document.getElementsByClassName('hyouzi')[1].classList.toggle('ima');
-            hyouzisitadesyou();
-            if(hourensouda.length===0){
-                hanndannnihairu();
-                hanndannkizyunn();
+            let bagutori=0;
+            for (let iiiin = 0; iiiin < 1; iiiin) {
+                bagutori++;
+                if(bagutori===500){
+                bunsyou.innerText='バグが発生したみたい。ごめんね〜。';
+                hosoku.innerText=toukatusimasyou;
+                    break;
+                }{
+                if(hourensouda.length===0){
+                    hanndannnihairu();
+                    hanndannkizyunn();
+                }
+                inonotarou();
+                if(toukatusimasyou[toukatusimasyou.length-1]===102 || toukatusimasyou[toukatusimasyou.length-1]===103 || toukatusimasyou[toukatusimasyou.length-1]===104 || toukatusimasyou[toukatusimasyou.length-1]===105 || toukatusimasyou[toukatusimasyou.length-1]===111 || toukatusimasyou[toukatusimasyou.length-1]===112){
+                    break;
+                }
+                }
             }
+            if(bagutori===500){
+                console.log(toukatusimasyou);
+                return;
+            }else{
+            console.log(toukatusimasyou);
+            hourensouda=toukatusimasyou;
+            uedato=[kiiro[0],kiiro[1],kiiro[2],kiiro[3],kiiro[4],kiiro[5],kiiro[6],kiiro[7],kiiro[8]];
+            maedato=[ao[8],ao[7],ao[6],ao[5],ao[4],ao[3],ao[2],ao[1],ao[0]];
+            hidaridato=[daidai[8],daidai[7],daidai[6],daidai[5],daidai[4],daidai[3],daidai[2],daidai[1],daidai[0]];
+            migidato=[aka[8],aka[7],aka[6],aka[5],aka[4],aka[3],aka[2],aka[1],aka[0]];
+            usirodato=[midori[8],midori[7],midori[6],midori[5],midori[4],midori[3],midori[2],midori[1],midori[0]];
+            sitadato=[siro[0],siro[1],siro[2],siro[3],siro[4],siro[5],siro[6],siro[7],siro[8]];
             ugokasitadesyou();
-            inonotarou();
+            hyouzisitadesyou();
+            kazoemaasyou();
+            }
         }else if(mutyakutyayaruwa===2){
             bunsyou.innerText='';
             hosoku.innerText='';
@@ -693,6 +768,8 @@ button.onclick=()=>{
         button.innerText='';
         button.innerText='スタート';
         button.style.fontWeight='600';
+        nokoritesuu.style.display='none';
+        zyoukyoukakuninnyou.style.display='block';
         bunsyou.innerText='';
         hosoku.innerText='';
         bunsyou.innerText='現在の色を入力してください';
@@ -734,11 +811,11 @@ button.onclick=()=>{
         daidai=hidaridato;
         kiiro=sitadato;
         inne();
-    }else if(koredake===10){
-        return;
     }else{
         var konaina=10;
         sukura.style.display='block';
+        nokoritesuu.style.display='none';
+        zyoukyoukakuninnyou.style.display='block';
         button.innerText='';
         button.innerText='スタート';
         button.style.fontWeight='600';
@@ -770,6 +847,8 @@ button.onclick=()=>{
         kounaakana=[];
         zyoutaiizyou=[0,0,0];
         sukippu=0;
+        toukatusimasyou=[];
+        supiidokyuubutekikaitou=0;
         inne();
     }
 }
@@ -869,7 +948,9 @@ function hyouzisitadesyou(){
     bunsyou.innerText='';
     bunsyou.innerText='矢印に従って回してください';
     hosoku.innerText='';
-    hosoku.innerText='※三列に矢印がある場合は持ち替えです。指示通りに持ち替えてください。';
+    hosoku.innerText='持つ方向に気を付けてください。';
+    hyakuhitotume.style.visibility ="hidden";
+    hyakuhutatume.style.visibility ="hidden";
     ueniku.style.display='none';
     hidariniku.style.display='none';
     maeniku.style.display='none';
@@ -897,6 +978,8 @@ function hyouzisitadesyou(){
             } else {
                 annnakoto[nanndakottya].style.backgroundColor='yellow';
             }
+        }else{
+            annnakoto[nanndakottya].style.backgroundColor='silver';
         }
     }
     for (let eezyanaika = 0; eezyanaika < konnnakoto.length; eezyanaika++) {
@@ -923,6 +1006,8 @@ function hyouzisitadesyou(){
             } else {
                 konnnakoto[eezyanaika].style.backgroundColor='yellow';
             }
+        }else{
+            annnakoto[eezyanaika].style.backgroundColor='silver';
         }
     }
     for (let sounannka = 0; sounannka < iinaiina.length; sounannka++) {
@@ -949,24 +1034,145 @@ function hyouzisitadesyou(){
             } else {
                 iinaiina[sounannka].style.backgroundColor='yellow';
             }
+        }else{
+            annnakoto[sounannka].style.backgroundColor='silver';
         }
+    }
+    if(hourensouda[0]===100){
+        bunsyou.innerText='';
+        bunsyou.innerText='白クロス完成';
+    }else if(hourensouda[0]===101){
+        bunsyou.innerText='';
+        bunsyou.innerText='F2L完成';
+    }else if(hourensouda[0]===102 || hourensouda[0]===103 || hourensouda[0]===104 || hourensouda[0]===105 || hourensouda[0]===111 || hourensouda[0]===112){
+        bunsyou.innerText='';
+        hosoku.innerText='';
+        tugihe.style.visibility ="hidden";
+        koredake=2;
+        button.innerText='';
+        button.innerText='別のスクランブルへ';
+        if(hourensouda[0]===102){
+            bunsyou.innerText='完成!';
+            hosoku.innerText='別のスクランブルを開始する場合はボタンを押してください。';
+        }else if(hourensouda[0]===103){
+            bunsyou.innerText='PLLスキップの前面揃い!!0.347%!!!'
+            hosoku.innerText='完成!';
+        }else if(hourensouda[0]===104){
+            bunsyou.innerText='OLL&PLLスキップ(LLスキップ)の前面揃い!!0.0016%!!!'
+            hosoku.innerText='完成!';
+        }else if(hourensouda[0]===105){
+            bunsyou.innerText='パリティ(決して揃わない形)になっています';
+            hosoku.innerText='ピボットしています。確認して下さい。';
+        }else if(hourensouda[0]===111){
+            bunsyou.innerText='パリティ(決して揃わない形)になっています';
+            hosoku.innerText='位置が入れ替わっているキューブがあります。';
+        }else if(hourensouda[0]===112){
+            bunsyou.innerText='パリティ(決して揃わない形)になっています';
+            hosoku.innerText='位置が入れ替わっているキューブとねじれたキューブがあります。';
+        }
+    }else if(hourensouda[0]===106){
+        bunsyou.innerText='';
+        bunsyou.innerText='PLL完成';
+    }else if(hourensouda[0]===107){
+        bunsyou.innerText='';
+        bunsyou.innerText='PLLスキップ!1.389%!';
+    }else if(hourensouda[0]===108){
+        bunsyou.innerText='';
+        bunsyou.innerText='OLL&PLLスキップ(LLスキップ)!0.0064%!!'
+    }else if(hourensouda[0]===109){
+        bunsyou.innerText='';
+        bunsyou.innerText='OLLスキップ!0.463%!';
+    }else if(hourensouda[0]===110){
+        bunsyou.innerText='';
+        bunsyou.innerText='OLL完成';
+    }else if(hourensouda[0]===111){
+        hosoku.innerText='';
+        hosoku.innerText='Uaパーム';
+    }else if(hourensouda[0]===112){
+        hosoku.innerText='';
+        hosoku.innerText='Ubパーム';
+    }else if(hourensouda[0]===113){
+        hosoku.innerText='';
+        hosoku.innerText='Hパーム';
+    }else if(hourensouda[0]===114){
+        hosoku.innerText='';
+        hosoku.innerText='Zパーム';
+    }else if(hourensouda[0]===115){
+        hosoku.innerText='';
+        hosoku.innerText='Tパーム';
+    }else if(hourensouda[0]===116){
+        hosoku.innerText='';
+        hosoku.innerText='Fパーム';
+    }else if(hourensouda[0]===117){
+        hosoku.innerText='';
+        hosoku.innerText='Eパーム';
+    }else if(hourensouda[0]===118){
+        hosoku.innerText='';
+        hosoku.innerText='Aaパーム';
+    }else if(hourensouda[0]===119){
+        hosoku.innerText='';
+        hosoku.innerText='Abパーム';
+    }else if(hourensouda[0]===120){
+        hosoku.innerText='';
+        hosoku.innerText='Yパーム';
+    }else if(hourensouda[0]===121){
+        hosoku.innerText='';
+        hosoku.innerText='Vパーム';
+    }else if(hourensouda[0]===122){
+        hosoku.innerText='';
+        hosoku.innerText='Nbパーム';
+    }else if(hourensouda[0]===123){
+        hosoku.innerText='';
+        hosoku.innerText='Naパーム';
+    }else if(hourensouda[0]===124){
+        hosoku.innerText='';
+        hosoku.innerText='Raパーム';
+    }else if(hourensouda[0]===125){
+        hosoku.innerText='';
+        hosoku.innerText='Rbパーム';
+    }else if(hourensouda[0]===126){
+        hosoku.innerText='';
+        hosoku.innerText='Jaパーム';
+    }else if(hourensouda[0]===127){
+        hosoku.innerText='';
+        hosoku.innerText='Jbパーム';
+    }else if(hourensouda[0]===128){
+        hosoku.innerText='';
+        hosoku.innerText='Gcパーム';
+    }else if(hourensouda[0]===129){
+        hosoku.innerText='';
+        hosoku.innerText='Gaパーム';
+    }else if(hourensouda[0]===130){
+        hosoku.innerText='';
+        hosoku.innerText='Gbパーム';
+    }else if(hourensouda[0]===131){
+        hosoku.innerText='';
+        hosoku.innerText='Gdパーム';
+    }
+    if(hourensouda[0]>=100){
+        hourensouda.shift();
     }
 }
 function ugokasitadesyou(){
+    hyakuhitotume.style.visibility ="hidden";
+    hyakuhutatume.style.visibility ="hidden";
     for (let forfor = 0; forfor < 9; forfor++) {
         annnakoto[forfor].innerText='';
         konnnakoto[forfor].innerText='';
         iinaiina[forfor].innerText='';
     }
     const nya=hourensouda[0];
-    console.log(hourensouda);
-    if(nya===0){
+    if(nya===0 || nya===28){
         s.innerText='←';
         t.innerText='←';
         u.innerText='←';
         j.innerText='←';
         k.innerText='←';
         l.innerText='←';
+        if(nya===28){
+            hyakuhitotume.style.visibility ="visible";
+            hosoku.innerText='180°動かして下さい。';
+        }
     }else if(nya===1){
         s.innerText='→';
         t.innerText='→';
@@ -974,13 +1180,16 @@ function ugokasitadesyou(){
         j.innerText='→';
         k.innerText='→';
         l.innerText='→';
-    }else if(nya===2){
+    }else if(nya===2 || nya===29){
         c.innerText='↑';
         f.innerText='↑';
         i.innerText='↑';
         l.innerText='↑';
         o.innerText='↑';
-        r.innerText='↑';
+        r.innerText='↑';if(nya===29){
+            hyakuhitotume.style.visibility ="visible";
+            hosoku.innerText='180°動かして下さい。';
+        }
     }else if(nya===3){
         c.innerText='↓';
         f.innerText='↓';
@@ -988,13 +1197,17 @@ function ugokasitadesyou(){
         l.innerText='↓';
         o.innerText='↓';
         r.innerText='↓';
-    }else if(nya===4){
+    }else if(nya===4 || nya===30){
         a.innerText='↓';
         d.innerText='↓';
         g.innerText='↓';
         j.innerText='↓';
         m.innerText='↓';
         p.innerText='↓';
+        if(nya===30){
+            hyakuhutatume.style.visibility ="visible";
+            hosoku.innerText='180°動かして下さい。';
+        }
     }else if(nya===5){
         a.innerText='↑';
         d.innerText='↑';
@@ -1002,13 +1215,17 @@ function ugokasitadesyou(){
         j.innerText='↑';
         m.innerText='↑';
         p.innerText='↑';
-    }else if(nya===6){
+    }else if(nya===6 || nya===31){
         y.innerText='→';
         z.innerText='→';
         zz.innerText='→';
         p.innerText='→';
         q.innerText='→';
         r.innerText='→';
+        if(nya===31){
+            hyakuhutatume.style.visibility ="visible";
+            hosoku.innerText='180°動かして下さい。';
+        }
     }else if(nya===7){
         y.innerText='←';
         z.innerText='←';
@@ -1016,13 +1233,17 @@ function ugokasitadesyou(){
         p.innerText='←';
         q.innerText='←';
         r.innerText='←';
-    }else if(nya===8){
+    }else if(nya===8 || nya===32){
         u.innerText='↑';
         x.innerText='↑';
         zz.innerText='↑';
         g.innerText='→';
         h.innerText='→';
         i.innerText='→';
+        if(nya===32){
+            hyakuhitotume.style.visibility ="visible";
+            hosoku.innerText='180°動かして下さい。';
+        }
     }else if(nya===9){
         u.innerText='↓';
         x.innerText='↓';
@@ -1030,13 +1251,17 @@ function ugokasitadesyou(){
         g.innerText='←';
         h.innerText='←';
         i.innerText='←';
-    }else if(nya===10){
+    }else if(nya===10 || nya===33){
         s.innerText='↓';
         v.innerText='↓';
         y.innerText='↓';
         a.innerText='←';
         b.innerText='←';
         c.innerText='←';
+        if(nya===33){
+            hyakuhutatume.style.visibility ="visible";
+            hosoku.innerText='180°動かして下さい。';
+        }
     }else if(nya===11){
         s.innerText='↑';
         v.innerText='↑';
@@ -1044,7 +1269,7 @@ function ugokasitadesyou(){
         a.innerText='→';
         b.innerText='→';
         c.innerText='→';
-    }else if(nya===12){
+    }else if(nya===12 || nya===34){
         hosoku.innerText='';
         hosoku.innerText='真ん中のみ動かして下さい。';
         b.innerText='↓';
@@ -1053,6 +1278,10 @@ function ugokasitadesyou(){
         k.innerText='↓';
         n.innerText='↓';
         q.innerText='↓';
+        if(nya===34){
+            hyakuhitotume.style.visibility ="visible";
+            hosoku.innerText='真ん中のみ180°動かして下さい。';
+        }
     }else if(nya===13){
         hosoku.innerText='';
         hosoku.innerText='真ん中のみ動かして下さい。';
@@ -1080,7 +1309,7 @@ function ugokasitadesyou(){
         d.innerText='←';
         e.innerText='←';
         f.innerText='←';
-    }else if(nya===16){
+    }else if(nya===16 || nya===36){
         hosoku.innerText='';
         hosoku.innerText='2列動かして下さい。';
         c.innerText='↑';
@@ -1095,6 +1324,10 @@ function ugokasitadesyou(){
         k.innerText='↑';
         n.innerText='↑';
         q.innerText='↑';
+        if(nya===36){
+            hyakuhitotume.style.visibility ="visible";
+            hosoku.innerText='二列を180°動かして下さい。';
+        }
     }else if(nya===17){
         hosoku.innerText='';
         hosoku.innerText='2列動かして下さい。';
@@ -1110,7 +1343,7 @@ function ugokasitadesyou(){
         k.innerText='↓';
         n.innerText='↓';
         q.innerText='↓';
-    }else if(nya===18){
+    }else if(nya===18 || nya===35){
         hosoku.innerText='';
         hosoku.innerText='2列動かして下さい。';
         a.innerText='↓';
@@ -1125,6 +1358,10 @@ function ugokasitadesyou(){
         k.innerText='↓';
         n.innerText='↓';
         q.innerText='↓';
+        if(nya===35){
+            hyakuhutatume.style.visibility ="visible";
+            hosoku.innerText='二列を180°動かして下さい。';
+        }
     }else if(nya===19){
         hosoku.innerText='';
         hosoku.innerText='2列動かして下さい。';
@@ -1552,7 +1789,7 @@ function inonotarou(){
         inonotarou();
     }else if(nya===23){
         mizi.push(maedato[3],maedato[4],maedato[5]);
-        uedato.splice(3,3,hidaridato[3],hidaridato[4],hidaridato[5]);
+        maedato.splice(3,3,hidaridato[3],hidaridato[4],hidaridato[5]);
         hidaridato.splice(3,3,usirodato[3],usirodato[4],usirodato[5]);
         usirodato.splice(3,3,migidato[3],migidato[4],migidato[5]);
         migidato.splice(3,3,mizi[0],mizi[1],mizi[2]);
@@ -1570,19 +1807,59 @@ function inonotarou(){
         inonotarou();
         inonotarou();
     }else if(nya===26){
-        hourensouda.unshift(8,7,14);
+        hourensouda.unshift(8,11,14);
         inonotarou();
         inonotarou();
         inonotarou();
     }else if(nya===27){
-        hourensouda.unshift(9,6,15);
+        hourensouda.unshift(9,10,15);
+        inonotarou();
+        inonotarou();
+        inonotarou();
+    }else if(nya===28){
+        hourensouda.unshift(0,0);
+        inonotarou();
+        inonotarou();
+    }else if(nya===29){
+        hourensouda.unshift(2,2);
+        inonotarou();
+        inonotarou();
+    }else if(nya===30){
+        hourensouda.unshift(4,4);
+        inonotarou();
+        inonotarou();
+    }else if(nya===31){
+        hourensouda.unshift(6,6);
+        inonotarou();
+        inonotarou();
+    }else if(nya===32){
+        hourensouda.unshift(8,8);
+        inonotarou();
+        inonotarou();
+    }else if(nya===33){
+        hourensouda.unshift(10,10);
+        inonotarou();
+        inonotarou();
+    }else if(nya===34){
+        hourensouda.unshift(12,12);
+        inonotarou();
+        inonotarou();
+    }else if(nya===35){
+        hourensouda.unshift(4,12,4,12);
+        inonotarou();
+        inonotarou();
+        inonotarou();
+        inonotarou();
+    }else if(nya===36){
+        hourensouda.unshift(2,13,2,13);
+        inonotarou();
         inonotarou();
         inonotarou();
         inonotarou();
     }
     hourensouda.shift();
 }
-//U=0 U'=1 R=2 R'=3 L=4 L'=5 D=6 D'=7 F=8 F'=9 B=10 B'=11 M=12 M'=13 S=14 S'=15 RW=16 RW'=17 LW=18 LW'=19 FW=20 FW'=21 Y=22 Y'=23 x=24 X'=25 z=26 z'=27
+//U=0 U'=1 R=2 R'=3 L=4 L'=5 D=6 D'=7 F=8 F'=9 B=10 B'=11 M=12 M'=13 S=14 S'=15 RW=16 RW'=17 LW=18 LW'=19 FW=20 FW'=21 Y=22 Y'=23 x=24 X'=25 z=26 z'=27　U2=28 R2=29 L2=30 D2=31 F2=32 B2=33 M2=34 LW2=35 RW2=36
 function hanndannnihairu(){
     ezzikana=[];
     kounaakana=[];
@@ -1703,55 +1980,55 @@ function hanndannkizyunn(){
     if(ezzikana[16]!==9){
         sukippu=1;
         sirokurosu();
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }else if(ezzikana[18]!==10){
         hourensouda=[22];
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }else if(ezzikana[20]!==11){
         hourensouda=[22,22];
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }else if(ezzikana[22]!==12){
         hourensouda=[23];
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }else if(kounaakana[12]!==5 || ezzikana[8]!==5){
         if(sukippu===1){
-            hosoku.innerText='';
-            hosoku.innerText='白クロス完成';
+            hourensouda.push(100);
         }
         sukippu=2;
         ehutuueru();
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }else if(kounaakana[15]!==6 || ezzikana[10]!==6){
         if(sukippu===1){
-            hosoku.innerText='';
-            hosoku.innerText='白クロス完成';
+            hourensouda.push(100);
         }
         hourensouda=[22];
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }else if(kounaakana[18]!==7 || ezzikana[12]!==7){
         if(sukippu===1){
-            hosoku.innerText='';
-            hosoku.innerText='白クロス完成';
+            hourensouda.push(100);
         }
         hourensouda=[22,22];
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }else if(kounaakana[21]!==8 || ezzikana[14]!==8){
         if(sukippu===1){
-            hosoku.innerText='';
-            hosoku.innerText='白クロス完成';
+            hourensouda.push(100);
         }
         hourensouda=[23];
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }else{
         if(sukippu===2){
-            hosoku.innerText='';
-            hosoku.innerText='F2L完成';
+            hourensouda.push(101);
         }
         ollll();
     }
 }
 function ollll(){
     zyoutaihaaku++;
-    console.log(zyoutaiizyou);
-    console.log(ezzikana,kounaakana);
     let outihekaero=[0,0];
     for (let nanikakou = 0; nanikakou < 4; nanikakou++) {
         if(ezzikana[nanikakou*2]===0){
             outihekaero[1]++;
             if(outihekaero[1]===1 && zyoutaiizyou[1]!==0){
-                console.log('nyaaaa');
                 ezzikana[nanikakou*2]=ezzikana[nanikakou*2+1];
                 ezzikana[nanikakou*2+1]=0;
             }
@@ -1763,12 +2040,10 @@ function ollll(){
             if(outihekaero[0]===1 && zyoutaiizyou[0]!==0){
                 if(zyoutaiizyou[0]===1){
                     if(kounaakana[nanikakoukana*3+1]!==0){
-                        console.log('nyeeee');
                         kounaakana[nanikakoukana*3+2]=kounaakana[nanikakoukana*3+1];
                         kounaakana[nanikakoukana*3+1]=0;
                         kounaakana[nanikakoukana*3]=0;
                     }else if(kounaakana[nanikakoukana*3+2]!==0){
-                        console.log('nyeeee');
                         kounaakana[nanikakoukana*3]=kounaakana[nanikakoukana*3+2];
                         kounaakana[nanikakoukana*3+2]=0;
                         kounaakana[nanikakoukana*3+1]=0;
@@ -1819,129 +2094,114 @@ function ollll(){
             }
         }
         if(outihekaero[0]===0){
-            bunsyou.innerText='';
-            hosoku.innerText='';
-            tugihe.style.visibility ="hidden";
-            koredake=2;
-            button.innerText='';
-            button.innerText='別のスクランブルへ';
             if(zyoutaiizyou[0]+zyoutaiizyou[1]===0){
                 if(zyoutaihaaku===2 && sukippu===4){
-                    bunsyou.innerText='PLLスキップの前面揃い!0.347%!';
-                    hosoku.innerText='完成!';
+                    hourensouda.push(103);
                 }else if(zyoutaihaaku===1 && sukippu===3){
-                    bunsyou.innerText='OLL&PLLスキップ(LLスキップ)の前面揃い!!0.0016%!!!'
-                    hosoku.innerText='完成!';
+                    hourensouda.push(104);
                 }else{
-                    bunsyou.innerText='完成!';
-                    hosoku.innerText='別のスクランブルを開始する場合はボタンを押してください。';
+                    hourensouda.push(102);
                 }
             }else {
-                bunsyou.innerText='パリティ(決して揃わない形)になっています';
-                hosoku.innerText='ピボットしています。確認して下さい。';
+                hourensouda.push(105);
             }
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(outihekaero[1]===0){
+            if(zyoutaiizyou[0]+zyoutaiizyou[1]===0 && sukippu===4){
+                hourensouda.push(106);
+            }
+            if(zyoutaihaaku===2 && sukippu===4){
+                hourensouda.push(107);
+            }else if(zyoutaihaaku===1 && sukippu===3){
+                hourensouda.push(108);
+            }
             hourensouda=[0];
-            if(zyoutaiizyou[0]+zyoutaiizyou[1]===0 && sukippu===4){
-                hosoku.innerText='';
-                hosoku.innerText='PLL完成';
-            }
-            if(zyoutaihaaku===2 && sukippu===4){
-                bunsyou.innerText='';
-                bunsyou.innerText='PLLスキップ!1.389%!';
-            }else if(zyoutaihaaku===1 && sukippu===3){
-                bunsyou.innerText='';
-                bunsyou.innerText='OLL&PLLスキップ(LLスキップ)!0.0064%!!'
-            }
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(outihekaero[2]===0){
-            hourensouda=[0,0];
             if(zyoutaiizyou[0]+zyoutaiizyou[1]===0 && sukippu===4){
-                hosoku.innerText='';
-                hosoku.innerText='PLL完成';
+                hourensouda.push(106);
             }
             if(zyoutaihaaku===2 && sukippu===4){
-                bunsyou.innerText='';
-                bunsyou.innerText='PLLスキップ!1.389%!';
+                hourensouda.push(107);
             }else if(zyoutaihaaku===1 && sukippu===3){
-                bunsyou.innerText='';
-                bunsyou.innerText='OLL&PLLスキップ(LLスキップ)!0.0064%!!'
+                hourensouda.push(108);
             }
+            hourensouda=[28];
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(outihekaero[3]===0){
-            hourensouda=[1];
             if(zyoutaiizyou[0]+zyoutaiizyou[1]===0 && sukippu===4){
-                hosoku.innerText='';
-                hosoku.innerText='PLL完成';
+                hourensouda.push(106);
             }
             if(zyoutaihaaku===2 && sukippu===4){
-                bunsyou.innerText='';
-                bunsyou.innerText='PLLスキップ!1.389%!';
+                hourensouda.push(107);
             }else if(zyoutaihaaku===1 && sukippu===3){
-                bunsyou.innerText='';
-                bunsyou.innerText='OLL&PLLスキップ(LLスキップ)!0.0064%!!'
+                hourensouda.push(108);
             }
+            hourensouda=[1];
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(outihekaero[0]===2){
-            bunsyou.innerText='';
-            hosoku.innerText='';
-            tugihe.style.visibility ="hidden";
-            koredake=2;
-            button.innerText='';
-            button.innerText='別のスクランブルへ';
-            bunsyou.innerText='パリティ(決して揃わない形)になっています';
             if(zyoutaiizyou[0]+zyoutaiizyou[1]===0){
-                hosoku.innerText='位置が入れ替わっているキューブがあります。';
+                hourensouda.push(111);
             }else{
-                hosoku.innerText='位置が入れ替わっているキューブとねじれたキューブがあります。';
+                hourensouda.push(112);
             }
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(outihekaero[1]===2){
             hourensouda=[0];
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(outihekaero[2]===2){
             hourensouda=[0,0];
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(outihekaero[3]===2){
             hourensouda=[1];
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(zyoutaiizyou[2]===1){
             kounaakana[1]=kounaakana[0];
             kounaakana[0]=kounaakana[3];
             kounaakana[3]=kounaakana[1];
             kounaakana[1]=0;
             ppll();
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else if(zyoutaiizyou[0]+zyoutaiizyou[1]===0){
             if(sukippu===3){
                 if(zyoutaihaaku===1){
                     zyoutaihaaku=100;
-                    bunsyou.innerText='';
-                    bunsyou.innerText='OLLスキップ!0.463%!';
+                    hourensouda.push(109);
+                }else{
+                    hourensouda.push(110);
                 }
-                hosoku.innerText='';
-                hosoku.innerText='OLL完成';
             }
             sukippu=4;
             ppll();
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }else{
             ppll();
+            toukatusimasyou=toukatusimasyou.concat(hourensouda);
         }
     }else{
         sukippu=3;
         oll();
+        toukatusimasyou=toukatusimasyou.concat(hourensouda);
     }
 }
 function oll(){
     for (let indexx = 0; indexx < 4; indexx++) {
         if(ezzikana[0]!==0 && ezzikana[2]!==0 && ezzikana[4]!==0 && ezzikana[6]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[2,0,0,3,1,2,0,3,1,2,1,3];
+            hourensouda=[2,28,3,1,2,0,3,1,2,1,3];
         }else if(ezzikana[0]!==0 && ezzikana[2]!==0 && ezzikana[4]!==0 && ezzikana[6]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
-            hourensouda=[2,0,0,2,2,1,2,2,1,2,2,0,0,2];
+            hourensouda=[2,28,29,1,29,1,29,28,2];
         }else if(ezzikana[0]!==0 && ezzikana[2]!==0 && ezzikana[4]!==0 && ezzikana[6]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[16,0,3,1,17,8,2,9];
         }else if(ezzikana[0]!==0 && ezzikana[2]!==0 && ezzikana[4]!==0 && ezzikana[6]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[8,3,9,16,0,2,1,17];
         }else if(ezzikana[0]!==0 && ezzikana[2]!==0 && ezzikana[4]!==0 && ezzikana[6]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]]!==0){
-            hourensouda=[2,2,7,2,0,0,3,6,2,0,0,2];
+            hourensouda=[29,7,2,28,3,6,2,28,2];
         }else if(ezzikana[0]!==0 && ezzikana[2]!==0 && ezzikana[4]!==0 && ezzikana[6]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[5,1,4,1,5,0,0,4];
+            hourensouda=[5,1,4,1,5,28,4];
         }else if(ezzikana[0]!==0 && ezzikana[2]!==0 && ezzikana[4]!==0 && ezzikana[6]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]]!==0){
-            hourensouda=[2,0,3,0,2,0,0,3];
+            hourensouda=[2,0,3,0,2,28,3];
         }else if(ezzikana[1]!==0 && ezzikana[3]!==0 && ezzikana[5]!==0 && ezzikana[7]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
-            hourensouda=[2,0,0,2,2,8,2,9,0,0,3,8,2,9];
+            hourensouda=[2,28,29,8,2,9,28,3,8,2,9];
         }else if(ezzikana[1]!==0 && ezzikana[3]!==0 && ezzikana[5]!==0 && ezzikana[7]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[20,0,2,1,3,15,0,2,1,3,9];
         }else if(ezzikana[1]!==0 && ezzikana[3]!==0 && ezzikana[5]!==0 && ezzikana[7]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
@@ -1953,7 +2213,7 @@ function oll(){
         }else if(ezzikana[1]!==0 && ezzikana[3]!==0 && ezzikana[5]!==0 && ezzikana[7]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[15,2,0,3,14,1,3,8,2,9];
         }else if(ezzikana[1]!==0 && ezzikana[3]!==0 && ezzikana[5]!==0 && ezzikana[7]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
-            hourensouda=[2,0,0,2,2,8,2,9,0,0,13,0,2,1,17];
+            hourensouda=[2,28,29,8,2,9,28,13,0,2,1,17];
         }else if(ezzikana[1]!==0 && ezzikana[3]!==0 && ezzikana[5]!==0 && ezzikana[7]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]]!==0){
             hourensouda=[14,2,0,3,1,3,1,3,0,2,15];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]]!==0){
@@ -1961,13 +2221,13 @@ function oll(){
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]]!==0){
             hourensouda=[2,0,3,1,13,0,2,1,17];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
-            hourensouda=[19,0,0,4,0,5,0,18];
+            hourensouda=[19,28,4,0,5,0,18];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[16,0,0,3,1,2,1,17];
+            hourensouda=[16,28,3,1,2,1,17];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[2,0,3,1,3,8,2,9,2,0,0,3];
+            hourensouda=[2,0,3,1,3,8,2,9,2,28,3];
         }else if(ezzikana[ezzi[indexx]]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
-            hourensouda=[2,0,3,0,3,8,2,9,2,0,0,3];
+            hourensouda=[2,0,3,0,3,8,2,9,2,28,3];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[2,0,3,1,3,8,2,9];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
@@ -1975,9 +2235,9 @@ function oll(){
         }else if(ezzikana[ezzi[indexx]]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]]!==0){
             hourensouda=[3,1,3,8,2,9,0,2];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]]!==0){
-            hourensouda=[2,0,2,2,1,3,8,2,0,2,1,9];
+            hourensouda=[2,0,29,1,3,8,2,0,2,1,9];
         }else if(ezzikana[ezzi[indexx]]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[2,0,0,2,2,8,2,9,2,0,0,3];
+            hourensouda=[2,28,2,2,8,2,9,2,28,3];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]]!==0){
             hourensouda=[2,0,3,0,2,1,3,1,3,8,2,9];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
@@ -1993,19 +2253,19 @@ function oll(){
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[8,0,2,1,3,0,2,1,3,9];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[3,8,2,0,2,1,2,2,9,2,2,1,3,0,2,0,3];
+            hourensouda=[3,8,2,0,2,1,29,9,29,1,3,0,2,0,3];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]]!==0){
-            hourensouda=[16,0,3,0,2,0,0,17];
+            hourensouda=[16,0,3,0,2,28,17];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[19,1,4,1,5,0,0,18];
+            hourensouda=[19,1,4,1,5,28,18];
         }else if(ezzikana[ezzi[indexx]]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]]!==0){
-            hourensouda=[12,2,0,3,0,2,0,0,3,0,13];
+            hourensouda=[12,2,0,3,0,2,28,3,0,13];
         }else if(ezzikana[ezzi[indexx]]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[12,5,1,4,1,5,0,0,4,1,13];
+            hourensouda=[12,5,1,4,1,5,28,4,1,13];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]]!==0){
-            hourensouda=[8,0,2,1,2,2,9,2,0,2,1,3];
+            hourensouda=[8,0,2,1,29,9,2,0,2,1,3];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[9,1,5,0,4,4,8,5,1,5,0,4];
+            hourensouda=[9,1,5,0,30,8,5,1,5,0,4];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[16,0,12,0,3,1,16,1,17];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
@@ -2015,41 +2275,43 @@ function oll(){
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[3,1,8,0,2,1,3,9,2];
         }else if(ezzikana[ezzi[indexx]]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[3,1,2,1,3,0,0,2,8,2,0,3,1,9];
+            hourensouda=[3,1,2,1,3,28,2,8,2,0,3,1,9];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]]!==0){
             hourensouda=[8,0,2,1,3,9];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
             hourensouda=[9,1,5,0,4,8];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]]!==0){
-            hourensouda=[2,0,3,0,2,0,0,3,8,2,0,3,1,9];
+            hourensouda=[2,0,3,0,2,28,3,8,2,0,3,1,9];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]]!==0 && kounaakana[kounaa[3+indexx]]!==0){
             hourensouda=[17,7,16,1,17,6,16,4,9,5,0,4,8,5];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]]!==0 && kounaakana[kounaa[1+indexx]]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[18,6,19,0,18,7,19,3,8,2,1,3,9,2];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
-            hourensouda=[16,0,3,0,2,1,3,0,2,0,0,17];
+            hourensouda=[16,0,3,0,2,1,3,0,2,28,17];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
-            hourensouda=[19,1,4,1,5,0,4,1,5,0,0,18];
+            hourensouda=[19,1,4,1,5,0,4,1,5,28,18];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+1]!==0 && kounaakana[kounaa[1+indexx]+2]!==0 && kounaakana[kounaa[2+indexx]+2]!==0 && kounaakana[kounaa[3+indexx]+1]!==0){
             hourensouda=[8,2,0,3,1,2,0,3,1,9];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]+1]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
             hourensouda=[9,5,1,4,0,5,1,4,0,8];
         }else if(ezzikana[ezzi[indexx]+1]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[19,0,18,18,1,18,18,1,18,18,0,18];
+            hourensouda=[19,0,35,1,35,1,35,0,18];
         }else if(ezzikana[ezzi[indexx]]!==0 && ezzikana[ezzi[1+indexx]+1]!==0 && ezzikana[ezzi[2+indexx]+1]!==0 && ezzikana[ezzi[3+indexx]]!==0 && kounaakana[kounaa[indexx]+2]!==0 && kounaakana[kounaa[1+indexx]+1]!==0 && kounaakana[kounaa[2+indexx]+1]!==0 && kounaakana[kounaa[3+indexx]+2]!==0){
-            hourensouda=[18,1,18,18,0,18,18,0,18,18,1,18];
+            hourensouda=[18,1,35,0,35,0,35,1,18];
         }
         if(hourensouda.length!==0){
             if(indexx===1){
                 hourensouda.unshift(0);
             }else if(indexx===2){
-                hourensouda.unshift(0,0);
+                hourensouda.unshift(28);
             }else if(indexx===3){
                 hourensouda.unshift(1);
             }
             break;
         }
     }
+    console.log(ezzikana,kounaakana)
+    console.log(hourensouda)
     if(hourensouda.length===0){
         if(zyoutaiizyou[0]===0 && zyoutaiizyou[1]===0 && zyoutaiizyou[2]===0){
             zyoutaiizyou=[1,0,0];
@@ -2078,95 +2340,53 @@ function ppll(){
     for (let idexxs = 0; idexxs < 4; idexxs++) {
         for (let innn = 0; innn < 4; innn++) {
             if(ezzikana[ezzi[innn]]===identy[idexxs+3] && kounaakana[kounaa[innn]]===identy[idexxs] && ezzikana[ezzi[innn+1]]===identy[idexxs] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[12,12,1,12,0,0,13,1,12,12];
-                hosoku.innerText='';
-                hosoku.innerText='Uaパーム';
+                hourensouda=[111,34,1,12,28,13,1,34];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs+1] && kounaakana[kounaa[innn]]===identy[idexxs] && ezzikana[ezzi[innn+1]]===identy[idexxs+3] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[12,12,0,12,0,0,13,0,12,12,];
-                hosoku.innerText='';
-                hosoku.innerText='Ubパーム';
+                hourensouda=[112,34,0,12,28,13,0,34];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs+2] && kounaakana[kounaa[innn]]===identy[idexxs] && ezzikana[ezzi[innn+1]]===identy[idexxs+3] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[12,12,0,12,12,0,0,12,12,0,12,12];
-                hosoku.innerText='';
-                hosoku.innerText='Hパーム';
+                hourensouda=[113,34,0,34,28,34,0,34];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs+3] && kounaakana[kounaa[innn]]===identy[idexxs] && ezzikana[ezzi[innn+1]]===identy[idexxs+2] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs+1] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[12,12,1,12,12,1,13,0,0,12,12,0,0,13];
-                hosoku.innerText='';
-                hosoku.innerText='Zパーム';
+                hourensouda=[114,34,1,34,1,13,28,34,28,13];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs+3] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[2,0,3,1,3,8,2,2,1,3,1,2,0,3,9];
-                hosoku.innerText='';
-                hosoku.innerText='Tパーム';
+                hourensouda=[115,2,0,3,1,3,8,29,1,3,1,2,0,3,9];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs+2] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs+1] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+3] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[3,1,9,2,0,3,1,3,8,2,2,1,3,1,2,0,3,0,2];
-                hosoku.innerText='';
-                hosoku.innerText='Fパーム';
+                hourensouda=[116,3,1,9,2,0,3,1,3,8,29,1,3,1,2,0,3,0,2];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs+1] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs+3] && ezzikana[ezzi[innn+3]]===identy[idexxs+3] && kounaakana[kounaa[innn+3]]===identy[idexxs+2]){
-                hourensouda=[2,11,3,8,2,10,3,9,2,10,3,8,2,11,3];
-                hosoku.innerText='';
-                hosoku.innerText='Eパーム';
+                hourensouda=[117,2,11,3,8,2,10,3,9,2,10,3,8,2,11,3,9];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs] && ezzikana[ezzi[innn+1]]===identy[idexxs+1] && kounaakana[kounaa[innn+1]]===identy[idexxs+3] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs+1] && ezzikana[ezzi[innn+3]]===identy[idexxs+3] && kounaakana[kounaa[innn+3]]===identy[idexxs+2]){
-                hourensouda=[11,2,11,4,4,10,3,11,4,4,10,10];
-                hosoku.innerText='';
-                hosoku.innerText='Aaパーム';
+                hourensouda=[118,11,2,11,30,10,3,11,30,33];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs+1] && kounaakana[kounaa[innn+1]]===identy[idexxs+2] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs] && ezzikana[ezzi[innn+3]]===identy[idexxs+3] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[10,5,10,2,2,11,4,10,2,2,10,10];
-                hosoku.innerText='';
-                hosoku.innerText='Abパーム';
+                hourensouda=[119,10,5,10,29,11,4,10,29,33];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+2] && ezzikana[ezzi[innn+1]]===identy[idexxs+1] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs+3] && kounaakana[kounaa[innn+2]]===identy[idexxs] && ezzikana[ezzi[innn+3]]===identy[idexxs+2] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[8,2,1,3,1,2,0,3,9,2,0,3,1,3,8,2,9];
-                hosoku.innerText='';
-                hosoku.innerText='Yパーム';
+                hourensouda=[120,8,2,1,3,1,2,0,3,9,2,0,3,1,3,8,2,9];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+2] && ezzikana[ezzi[innn+1]]===identy[idexxs+2] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs+1] && kounaakana[kounaa[innn+2]]===identy[idexxs] && ezzikana[ezzi[innn+3]]===identy[idexxs+3] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[3,0,2,1,3,21,0,2,0,0,3,1,2,1,3,20,2];
-                hosoku.innerText='';
-                hosoku.innerText='Vパーム';
+                hourensouda=[121,3,0,2,1,3,21,1,2,28,3,1,2,1,3,20,2];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+2] && ezzikana[ezzi[innn+1]]===identy[idexxs+3] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[17,7,8,16,1,17,9,6,16,16,0,17,1,17,8,16,9];
-                hosoku.innerText='';
-                hosoku.innerText='Nbパーム';
+                hourensouda=[122,17,7,8,16,1,17,9,6,36,0,17,1,17,8,16,9];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs] && ezzikana[ezzi[innn+1]]===identy[idexxs+3] && kounaakana[kounaa[innn+1]]===identy[idexxs+3] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+1]){
-                hourensouda=[2,0,3,0,2,0,3,9,2,0,3,1,3,8,2,2,1,3,0,0,2,1,3];
-                hosoku.innerText='';
-                hosoku.innerText='Naパーム';
+                hourensouda=[123,2,0,3,0,2,0,3,9,2,0,3,1,3,8,29,1,3,28,2,1,3];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+3] && ezzikana[ezzi[innn+1]]===identy[idexxs+2] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs+1] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+3] && kounaakana[kounaa[innn+3]]===identy[idexxs]){
-                hourensouda=[2,1,2,2,7,2,0,3,6,2,1,2,1,3,0,2,0,3];
-                hosoku.innerText='';
-                hosoku.innerText='Raパーム';
+                hourensouda=[124,2,1,29,7,2,0,3,6,2,1,2,1,3,0,2,0,3];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs+3] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs+1] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[2,2,8,2,0,2,1,3,9,2,0,0,3,0,0,2];
-                hosoku.innerText='';
-                hosoku.innerText='Rbパーム';
+                hourensouda=[125,29,8,2,0,2,1,3,9,2,28,3,28,2];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs+2] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs+1] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+3] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[3,13,8,2,9,2,0,0,17,0,16,0,0,17];
-                hosoku.innerText='';
-                hosoku.innerText='Jaパーム';
+                hourensouda=[126,3,13,8,2,9,2,28,17,0,16,28,17];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs+1] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs+2] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+3] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[2,0,3,9,2,0,3,1,3,8,2,2,1,3];
-                hosoku.innerText='';
-                hosoku.innerText='Jbパーム';
-            }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+2] && ezzikana[ezzi[innn+1]]===identy[idexxs+2] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs+3] && kounaakana[kounaa[innn+2]]===identy[idexxs+1] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
-                hourensouda=[2,2,8,8,2,0,0,2,0,0,3,8,2,0,3,1,3,8,2,2];
-                hosoku.innerText='';
-                hosoku.innerText='Gcパーム';
+                hourensouda=[127,2,0,3,9,2,0,3,1,3,8,29,1,3];
+            }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs+3] && kounaakana[kounaa[innn+1]]===identy[idexxs+2] && ezzikana[ezzi[innn+2]]===identy[idexxs+1] && kounaakana[kounaa[innn+2]]===identy[idexxs] && ezzikana[ezzi[innn+3]]===identy[idexxs+2] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
+                hourensouda=[128,29,32,2,28,2,28,3,8,2,0,3,1,3,8,29];
             }else if(ezzikana[ezzi[innn]]===identy[idexxs] && kounaakana[kounaa[innn]]===identy[idexxs] && ezzikana[ezzi[innn+1]]===identy[idexxs+2] && kounaakana[kounaa[innn+1]]===identy[idexxs+3] && ezzikana[ezzi[innn+2]]===identy[idexxs+3] && kounaakana[kounaa[innn+2]]===identy[idexxs+1] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+2]){
-                hourensouda=[2,2,0,3,0,3,1,2,1,2,2,6,1,3,0,2,7];
-                hosoku.innerText='';
-                hosoku.innerText='Gaパーム';
-            }else if(ezzikana[ezzi[innn]]===identy[idexxs+3] && kounaakana[kounaa[innn]]===identy[idexxs+2] && ezzikana[ezzi[innn+1]]===identy[idexxs+1] && kounaakana[kounaa[innn+1]]===identy[idexxs+1] && ezzikana[ezzi[innn+2]]===identy[idexxs] && kounaakana[kounaa[innn+2]]===identy[idexxs+3] && ezzikana[ezzi[innn+3]]===identy[idexxs+2] && kounaakana[kounaa[innn+3]]===identy[idexxs]){
-                hourensouda=[3,1,2,0,7,2,2,0,3,0,2,1,2,1,2,2,6];
-                hosoku.innerText='';
-                hosoku.innerText='Gbパーム';
-            }else if(ezzikana[ezzi[innn]]===identy[idexxs+2] && kounaakana[kounaa[innn]]===identy[idexxs] && ezzikana[ezzi[innn+1]]===identy[idexxs+1] && kounaakana[kounaa[innn+1]]===identy[idexxs+3] && ezzikana[ezzi[innn+2]]===identy[idexxs+3] && kounaakana[kounaa[innn+2]]===identy[idexxs+1] && ezzikana[ezzi[innn+3]]===identy[idexxs] && kounaakana[kounaa[innn+3]]===identy[idexxs+2]){
-                hourensouda=[2,0,3,1,6,2,2,1,2,1,3,0,3,0,2,2,7];
-                hosoku.innerText='';
-                hosoku.innerText='Gdパーム';
+                hourensouda=[129,29,0,3,0,3,1,2,1,29,6,1,3,0,2,7];
+            }else if(ezzikana[ezzi[innn]]===identy[idexxs+2] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs+3] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
+                hourensouda=[130,3,1,2,0,7,29,0,3,0,2,1,2,1,29,6];
+            }else if(ezzikana[ezzi[innn]]===identy[idexxs+3] && kounaakana[kounaa[innn]]===identy[idexxs+1] && ezzikana[ezzi[innn+1]]===identy[idexxs+2] && kounaakana[kounaa[innn+1]]===identy[idexxs] && ezzikana[ezzi[innn+2]]===identy[idexxs] && kounaakana[kounaa[innn+2]]===identy[idexxs+2] && ezzikana[ezzi[innn+3]]===identy[idexxs+1] && kounaakana[kounaa[innn+3]]===identy[idexxs+3]){
+                hourensouda=[131,2,0,3,1,6,29,1,2,1,3,0,3,0,29,7];
             }
             if(hourensouda.length!==0){
                 if(innn===1){
                     hourensouda.unshift(0);
                 }else if(innn===2){
-                    hourensouda.unshift(0,0);
+                    hourensouda.unshift(28);
                 }else if(innn===3){
                     hourensouda.unshift(1);
                 }
@@ -2177,7 +2397,8 @@ function ppll(){
             break;
         }
     }
-    console.log(ezzikana,kounaakana);
+    console.log(ezzikana,kounaakana)
+    console.log(hourensouda)
     if(hourensouda.length===0){
         zyoutaiizyou[2]=1;
         ollll();
@@ -2186,194 +2407,249 @@ function ppll(){
 function ehutuueru(){
     let hantei=ezzikana.indexOf(5);
     let hentai=kounaakana.indexOf(5);
-    for (let index = 0; index < 4; index++) {
-        if(hentai===kounaa[3+index]+1 && hantei===ezzi[index]){
-            hourensouda=[2,1,3];
-        }else if(hentai===kounaa[1+index]+2 && hantei===ezzi[1+index]+1){
-            hourensouda=[9,0,8];
-        }else if(hentai===kounaa[index]+2 && hantei===ezzi[2+index]){
-            hourensouda=[2,0,3];
-        }else if(hentai===kounaa[index]+1 && hantei===ezzi[3+index]+1){
-            hourensouda=[9,1,8];
-        }else if(hentai===kounaa[3+index]+2 && hantei===ezzi[2+index]){
-            hourensouda=[9,0,8,1,2,0,3];
-        }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[3+index]+1){
-            hourensouda=[2,1,3,0,9,1,8];
-        }else if(hentai===kounaa[3+index]+2 && hantei===ezzi[2+index]+1){
-            hourensouda=[9,1,8,0,0,9,0,8];
-        }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[3+index]){
-            hourensouda=[2,0,3,0,0,2,1,3];
-        }else if(hentai===kounaa[3+index]+2 && hantei===ezzi[1+index]+1){
-            hourensouda=[9,0,0,8,0,0,9,0,8];
-        }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[index]){
-            hourensouda=[2,0,0,3,0,0,2,1,3];
-        }else if(hentai===12 && hantei===ezzi[2+index]){
-            hourensouda=[9,0,8,0,2,1,3];
-        }else if(hentai===12 && hantei===ezzi[3+index]+1){
-            hourensouda=[2,1,3,1,9,0,8];
-        }else if(hentai===kounaa[1+index] && hantei===ezzi[index]+1){
-            hourensouda=[9,0,0,8,1,9,0,8];
-        }else if(hentai===kounaa[3+index] && hantei===ezzi[1+index]){
-            hourensouda=[2,0,0,3,0,2,1,3];
-        }else if(hentai===kounaa[2+index] && hantei===ezzi[+index]+1){
-            hourensouda=[9,1,8,1,9,0,8];
-        }else if(hentai===kounaa[2+index] && hantei===ezzi[1+index]){
-            hourensouda=[2,0,3,0,2,1,3];
-        }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[2+index]+1){
-            hourensouda=[2,0,0,3,0,9,1,8];
-        }else if(hentai===kounaa[3+index]+2 && hantei===ezzi[3+index]){
-            hourensouda=[9,0,0,8,1,2,0,3];
-        }else if(hentai===kounaa[1+index]+2 && hantei===ezzi[2+index]){
-            hourensouda=[2,1,3,0,2,0,3];
-        }else if(hentai===kounaa[3+index]+1 && hantei===ezzi[3+index]+1){
-            hourensouda=[9,0,8,1,9,1,8];
-        }else if(hentai===kounaa[index] && hantei===ezzi[1+index]){
-            hourensouda=[2,0,0,3,1,2,0,3];
-        }else if(hentai===kounaa[index] && hantei===ezzi[index]+1){
-            hourensouda=[9,0,0,8,0,9,1,8];
-        }else if(hentai===kounaa[index] && hantei===ezzi[1+index]+1){
-            hourensouda=[9,1,9,4,8,5,0,0,8];
-        }else if(hentai===kounaa[index] && hantei===ezzi[index]){
-            hourensouda=[2,0,2,7,3,6,0,0,3];
-        }else if(hentai===kounaa[index]+2 && hantei===ezzi[1+index]+1){
-            hourensouda=[2,1,3,0,0,9,1,8];
-        }else if(hentai===kounaa[index]+1 && hantei===ezzi[index]){
-            hourensouda=[9,0,8,0,0,2,0,3];
-        }else if(hentai===14 && hantei===ezzi[1+index]){
-            hourensouda=[2,1,3,0,2,1,3];
-        }else if(hentai===14 && hantei===ezzi[2+index]+1){
-            hourensouda=[2,1,3,9,1,8];
-        }else if(hentai===13 && hantei===ezzi[index]+1){
-            console.log('koredayona');
-            hourensouda=[9,0,8,1,9.0,8];
-        }else if(hentai===13 && hantei===ezzi[3+index]){
-            hourensouda=[9,0,8,2,0,3];
-        }else if(hentai===kounaa[3+index]+2 && hantei===8){
-            hourensouda=[9,0,8,0,0,9,0,8];
-        }else if(hentai===kounaa[3+index]+2 && hantei===9){
-            hourensouda=[9,1,8,1,2,0,3];
-        }else if(hentai===kounaa[1+index]+1 && hantei===8){
-            hourensouda=[2,1,3,0,0,2,1,3];
-        }else if(hentai===kounaa[1+index]+1 && hantei===9){
-            hourensouda=[2,0,3,0,9,1,8];
-        }else if(hentai===kounaa[index] && hantei===9){
-            hourensouda=[2,1,3,9,0,0,8];
-        }else if(hentai===kounaa[index] && hantei===8){
-            hourensouda=[9,9,1,9,9,1,9,9,0,0,9,9];
+    for (let tukurunoga = 0; tukurunoga < 4; tukurunoga++) {
+        if(kounaakana.indexOf(6)===kounaa[tukurunoga]+1 && ezzikana.indexOf(6)===ezzi[1+tukurunoga]){
+            hourensouda=[10,1,11];
+        }else if(kounaakana.indexOf(6)===kounaa[2+tukurunoga]+2 && ezzikana.indexOf(6)===ezzi[2+tukurunoga]+1){
+            hourensouda=[3,0,2];
+        }else if(kounaakana.indexOf(7)===kounaa[1+tukurunoga]+1 && ezzikana.indexOf(7)===ezzi[2+tukurunoga]){
+            hourensouda=[4,1,5];
+        }else if(kounaakana.indexOf(7)===kounaa[3+tukurunoga]+2 && ezzikana.indexOf(7)===ezzi[3+tukurunoga]+1){
+            hourensouda=[11,0,10];
+        }else if(kounaakana.indexOf(8)===kounaa[2+tukurunoga]+1 && ezzikana.indexOf(8)===ezzi[3+tukurunoga]){
+            hourensouda=[8,0,9];
+        }else if(kounaakana.indexOf(8)===kounaa[tukurunoga]+2 && ezzikana.indexOf(8)===ezzi[tukurunoga]+1){
+            hourensouda=[5,0,4];
         }
         if(hourensouda.length>0){
-            if(index===3){
+            if(tukurunoga===3){
                 hourensouda.unshift(1);
-            }else if(index===2){
-                hourensouda.unshift(0,0);
-            }else if(index===1){
+            }else if(tukurunoga===2){
+                hourensouda.unshift(28);
+            }else if(tukurunoga===1){
                 hourensouda.unshift(0);
             }
             break;
         }
     }
-    if(hentai===12 && hantei===9){
-        hourensouda=[9,9,0,0,3,9,9,2,0,0,8,1,8];
-    }else if(hentai===13 && hantei===8){
-        hourensouda=[2,0,0,2,0,3,0,2,0,0,2,2];
-    }else if(hentai===14 && hantei===8){
-        hourensouda=[9,0,0,9,1,8,1,9,0,0,9,9];
-    }else if(hentai===13 && hantei===9){
-        hourensouda=[9,0,9,1,5,0,4,9,9];
-    }else if(hentai===14 && hantei===9){
-        hourensouda=[2,1,2,0,10,1,11,2,2];
-    }
     if(hourensouda.length===0){
-        let neruwa=[];
-        if(hentai===3 || hentai===4 || hentai===5 || hantei===2 || hantei===3){
-            neruwa.push(1);
-        }
-        if(hentai===6 || hentai===7 || hentai===8 || hantei===4 || hantei===5){
-            neruwa.push(2);
-        }
-        if(hentai===9 || hentai===10 || hentai===11 || hantei===6 || hantei===7){
-            neruwa.push(3);
-        }
-        if(hentai===0 || hentai===1 || hentai===2 || hantei===0 || hantei===1){
-            neruwa.push(4);
-        }
-        if(hentai===15 || hentai===16 || hentai===17 || hantei===10 || hantei===11){
-            neruwa.push(5);
-        }
-        if(hentai===18 || hentai===19 || hentai===20 || hantei===12 || hantei===13){
-            neruwa.push(6);
-        }
-        if(hentai===21 || hentai===22 || hentai===23 || hantei===14 || hantei===15){
-            neruwa.push(7);
-        }
-        if(neruwa[0]===5 || neruwa[1]===5){
-            if(neruwa[0]===2){
-                hourensouda=[0];
+        for (let index = 0; index < 4; index++) {
+            if(hentai===kounaa[3+index]+1 && hantei===ezzi[index]){
+                hourensouda=[2,1,3];
+            }else if(hentai===kounaa[1+index]+2 && hantei===ezzi[1+index]+1){
+                hourensouda=[9,0,8];
+            }else if(hentai===kounaa[index]+2 && hantei===ezzi[2+index]){
+                hourensouda=[2,0,3];
+            }else if(hentai===kounaa[index]+1 && hantei===ezzi[3+index]+1){
+                hourensouda=[9,1,8];
+            }else if(hentai===kounaa[3+index]+2 && hantei===ezzi[2+index]){
+                hourensouda=[9,0,8,1,2,0,3];
+            }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[3+index]+1){
+                hourensouda=[2,1,3,0,9,1,8];
+            }else if(hentai===kounaa[3+index]+2 && hantei===ezzi[2+index]+1){
+                hourensouda=[9,1,8,28,9,0,8];
+            }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[3+index]){
+                hourensouda=[2,0,3,28,2,1,3];
+            }else if(hentai===kounaa[3+index]+2 && hantei===ezzi[1+index]+1){
+                hourensouda=[9,28,8,28,9,0,8];
+            }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[index]){
+                hourensouda=[2,28,3,28,2,1,3];
+            }else if(hentai===12 && hantei===ezzi[2+index]){
+                hourensouda=[9,0,8,0,2,1,3];
+            }else if(hentai===12 && hantei===ezzi[3+index]+1){
+                hourensouda=[2,1,3,1,9,0,8];
+            }else if(hentai===kounaa[1+index] && hantei===ezzi[index]+1){
+                hourensouda=[9,28,8,1,9,0,8];
+            }else if(hentai===kounaa[3+index] && hantei===ezzi[1+index]){
+                hourensouda=[2,28,3,0,2,1,3];
+            }else if(hentai===kounaa[2+index] && hantei===ezzi[+index]+1){
+                hourensouda=[9,1,8,1,9,0,8];
+            }else if(hentai===kounaa[2+index] && hantei===ezzi[1+index]){
+                hourensouda=[2,0,3,0,2,1,3];
+            }else if(hentai===kounaa[1+index]+1 && hantei===ezzi[2+index]+1){
+                hourensouda=[2,28,3,0,9,1,8];
+            }else if(hentai===kounaa[3+index]+2 && hantei===ezzi[3+index]){
+                hourensouda=[9,28,8,1,2,0,3];
+            }else if(hentai===kounaa[1+index]+2 && hantei===ezzi[2+index]){
+                hourensouda=[2,1,3,0,2,0,3];
+            }else if(hentai===kounaa[3+index]+1 && hantei===ezzi[3+index]+1){
+                hourensouda=[9,0,8,1,9,1,8];
+            }else if(hentai===kounaa[index] && hantei===ezzi[1+index]){
+                hourensouda=[2,28,3,1,2,0,3];
+            }else if(hentai===kounaa[index] && hantei===ezzi[index]+1){
+                hourensouda=[9,28,8,0,9,1,8];
+            }else if(hentai===kounaa[index] && hantei===ezzi[1+index]+1){
+                hourensouda=[9,1,9,4,8,5,28,8];
+            }else if(hentai===kounaa[index] && hantei===ezzi[index]){
+                hourensouda=[2,0,2,7,3,6,28,3];
+            }else if(hentai===kounaa[index]+2 && hantei===ezzi[1+index]+1){
+                hourensouda=[2,1,3,28,9,1,8];
+            }else if(hentai===kounaa[index]+1 && hantei===ezzi[index]){
+                hourensouda=[9,0,8,28,2,0,3];
+            }else if(hentai===14 && hantei===ezzi[1+index]){
+                hourensouda=[2,1,3,0,2,1,3];
+            }else if(hentai===14 && hantei===ezzi[2+index]+1){
+                hourensouda=[2,1,3,9,1,8];
+            }else if(hentai===13 && hantei===ezzi[index]+1){
+                hourensouda=[9,0,8,1,9.0,8];
+            }else if(hentai===13 && hantei===ezzi[3+index]){
+                hourensouda=[9,0,8,2,0,3];
+            }else if(hentai===kounaa[3+index]+2 && hantei===8){
+                hourensouda=[9,0,8,28,9,0,8];
+            }else if(hentai===kounaa[3+index]+2 && hantei===9){
+                hourensouda=[9,1,8,1,2,0,3];
+            }else if(hentai===kounaa[1+index]+1 && hantei===8){
+                hourensouda=[2,1,3,28,2,1,3];
+            }else if(hentai===kounaa[1+index]+1 && hantei===9){
+                hourensouda=[2,0,3,0,9,1,8];
+            }else if(hentai===kounaa[index] && hantei===9){
+                hourensouda=[2,1,3,9,28,8];
+            }else if(hentai===kounaa[index] && hantei===8){
+                hourensouda=[32,1,32,1,32,28,32];
             }
-            hourensouda.push(3,0,2);
-        }else if(neruwa[0]===6 || neruwa[1]===6){
-            if(neruwa[0]===3){
-                hourensouda=[0];
+            if(hourensouda.length>0){
+                if(index===3){
+                    hourensouda.unshift(1);
+                }else if(index===2){
+                    hourensouda.unshift(28);
+                }else if(index===1){
+                    hourensouda.unshift(0);
+                }
+                break;
             }
-            hourensouda.push(11,0,10);
-        }else if(neruwa[0]===7 || neruwa[1]===7){
-            if(neruwa[0]===4){
-                hourensouda=[0];
+        }
+        if(hourensouda.length===0){
+            if(hentai===12 && hantei===9){
+                hourensouda=[32,28,3,32,2,28,8,1,8];
+            }else if(hentai===13 && hantei===8){
+                hourensouda=[2,28,2,0,3,0,2,28,29];
+            }else if(hentai===14 && hantei===8){
+                hourensouda=[9,28,9,1,8,1,9,28,32];
+            }else if(hentai===13 && hantei===9){
+                hourensouda=[9,0,9,1,5,0,4,32];
+            }else if(hentai===14 && hantei===9){
+                hourensouda=[2,1,2,0,10,1,11,28];
             }
-            hourensouda.push(5,0,4);
+            if(hourensouda.length===0){
+                let neruwa=[];
+                if(hentai===3 || hentai===4 || hentai===5 || hantei===2 || hantei===3){
+                    neruwa.push(1);
+                }
+                if(hentai===6 || hentai===7 || hentai===8 || hantei===4 || hantei===5){
+                    neruwa.push(2);
+                }
+                if(hentai===9 || hentai===10 || hentai===11 || hantei===6 || hantei===7){
+                    neruwa.push(3);
+                }
+                if(hentai===0 || hentai===1 || hentai===2 || hantei===0 || hantei===1){
+                    neruwa.push(4);
+                }
+                if(hentai===15 || hentai===16 || hentai===17 || hantei===10 || hantei===11){
+                    neruwa.push(5);
+                }
+                if(hentai===18 || hentai===19 || hentai===20 || hantei===12 || hantei===13){
+                    neruwa.push(6);
+                }
+                if(hentai===21 || hentai===22 || hentai===23 || hantei===14 || hantei===15){
+                    neruwa.push(7);
+                }
+                if(neruwa[0]===5 || neruwa[1]===5){
+                    if(neruwa[0]===2){
+                        hourensouda=[0];
+                    }
+                    hourensouda.push(3,0,2);
+                }else if(neruwa[0]===6 || neruwa[1]===6){
+                    if(neruwa[0]===3){
+                        hourensouda=[0];
+                    }
+                    hourensouda.push(11,0,10);
+                }else if(neruwa[0]===7 || neruwa[1]===7){
+                    if(neruwa[0]===4){
+                        hourensouda=[0];
+                    }
+                    hourensouda.push(5,0,4);
+                }
+            }
         }
     }
-    console.log(hantei,hentai);
 }
 function sirokurosu(){
-    if(ezzikana[0]===9){
-        hourensouda=[8,8];
-    }else if(ezzikana[1]===9){
-        hourensouda=[8,6,3,7];
-    }else if(ezzikana[2]===9){
-        hourensouda=[0,8,8];
-    }else if(ezzikana[3]===9){
-        hourensouda=[3,8,2];
-    }else if(ezzikana[4]===9){
-        hourensouda=[0,0,8,8];
-    }else if(ezzikana[5]===9){
-        hourensouda=[0,3,8,2];
-    }else if(ezzikana[6]===9){
-        hourensouda=[1,8,8];
-    }else if(ezzikana[7]===9){
-        hourensouda=[4,9,5];
-    }else if(ezzikana[8]===9){
-        hourensouda=[6,3,7];
-    }else if(ezzikana[9]===9){
-        hourensouda=[8];
-    }else if(ezzikana[10]===9){
-        hourensouda=[6,6,11,6,6];
-    }else if(ezzikana[11]===9){
-        hourensouda=[6,2,7];
-    }else if(ezzikana[12]===9){
-        hourensouda=[7,5,6];
-    }else if(ezzikana[13]===9){
-        hourensouda=[6,6,10,6,6];
-    }else if(ezzikana[14]===9){
-        hourensouda=[9];
-    }else if(ezzikana[15]===9){
-        hourensouda=[7,4,6];
-    }else if(ezzikana[17]===9){
-        hourensouda=[9,6,3,7];
-    }else if(ezzikana[18]===9){
-        hourensouda=[2,6,3,7];
-    }else if(ezzikana[19]===9){
-        hourensouda=[2,8];
-    }else if(ezzikana[20]===9){
-        hourensouda=[10,10,0,0,8,8];
-    }else if(ezzikana[21]===9){
-        hourensouda=[10,6,2,7];
-    }else if(ezzikana[22]===9){
-        hourensouda=[5,7,4,6];
-    }else if(ezzikana[23]===9){
-        hourensouda=[5,9];
+    let ikkaine=[10,11,12,9];
+    let nikaine=[11,12,9,10];
+    let hantaine=[12,9,10,11];
+    let matayarutoha=[0,0,0];
+    for (let yes = 0; yes < 4; yes++) {
+        if(ezzikana[16+2*yes]===ikkaine[yes]){
+            matayarutoha[0]++;
+        }
+        if(ezzikana[16+2*yes]===nikaine[yes]){
+            matayarutoha[1]++;
+        }
+        if(ezzikana[16+2*yes]===hantaine[yes]){
+            matayarutoha[2]++;
+        }
     }
-    console.log(ezzikana.indexOf(9));
+    if(mutyakutyayaruwa[0]>=2){
+        hourensouda.push(7);
+    }else if(mutyakutyayaruwa[1]>=2){
+        hourensouda=[31];
+    }else if(mutyakutyayaruwa[2]>=2){
+        hourensouda.push(6);
+    }
+    if(ezzikana[16]===10 && ezzikana[18]===9){
+        hourensouda.push(9,7,8,6,9);
+    }else if(ezzikana[16]===11 && ezzikana[20]===9){
+        hourensouda.push(34,28,34);
+    }else if(ezzikana[16]===12 && ezzikana[22]===9){
+        hourensouda.push(8,6,9,7,8);
+    }
+    if(ezzikana[0]===9){
+        hourensouda.push(32);
+    }else if(ezzikana[1]===9){
+        hourensouda.push(8,6,3,7);
+    }else if(ezzikana[2]===9){
+        hourensouda.push(0,32);
+    }else if(ezzikana[3]===9){
+        hourensouda.push(3,8,2);
+    }else if(ezzikana[4]===9){
+        hourensouda.push(28,32);
+    }else if(ezzikana[5]===9){
+        hourensouda.push(0,3,8,2);
+    }else if(ezzikana[6]===9){
+        hourensouda.push(1,32);
+    }else if(ezzikana[7]===9){
+        hourensouda.push(4,9,5);
+    }else if(ezzikana[8]===9){
+        hourensouda.push(6,3,7);
+    }else if(ezzikana[9]===9){
+        hourensouda.push(8);
+    }else if(ezzikana[10]===9){
+        hourensouda.push(31,11,31);
+    }else if(ezzikana[11]===9){
+        hourensouda.push(6,2,7);
+    }else if(ezzikana[12]===9){
+        hourensouda.push(7,5,6);
+    }else if(ezzikana[13]===9){
+        hourensouda.push(31,10,31);
+    }else if(ezzikana[14]===9){
+        hourensouda.push(9);
+    }else if(ezzikana[15]===9){
+        hourensouda.push(7,4,6);
+    }else if(ezzikana[17]===9){
+        hourensouda.push(9,6,3,7);
+    }else if(ezzikana[18]===9){
+        hourensouda.push(2,6,3,7);
+    }else if(ezzikana[19]===9){
+        hourensouda.push(2,8);
+    }else if(ezzikana[20]===9){
+        hourensouda.push(33,28,32);
+    }else if(ezzikana[21]===9){
+        hourensouda.push(10,6,2,7);
+    }else if(ezzikana[22]===9){
+        hourensouda.push(5,7,4,6);
+    }else if(ezzikana[23]===9){
+        hourensouda.push(5,9);
+    }
 }
 function tukuttemita(){
     let nakanaka = Math.floor( Math.random() * 6 );
@@ -2431,15 +2707,27 @@ tekiyou.onclick=()=>{
     for (let hou = 0; hou < hourensouda.length; hou) {
         inonotarou();
     }
-    siro=uedato;
-    midori=maedato;
-    aka=migidato;
-    ao=usirodato;
-    daidai=hidaridato;
-    kiiro=sitadato;
+    siro.length=0;
+    midori.length=0;
+    aka.length=0;
+    ao.length=0;
+    daidai.length=0;
+    kiiro.length=0;
+    for (let tuketuke = 0; tuketuke < 9; tuketuke++) {
+        siro.push(uedato[tuketuke]);
+        midori.push(maedato[tuketuke]);
+        aka.push(migidato[tuketuke]);
+        ao.push(usirodato[tuketuke]);
+        daidai.push(hidaridato[tuketuke]);
+        kiiro.push(sitadato[tuketuke]);
+    }
     inne();
     koredake=0;
     document.getElementsByClassName('atara')[0].classList.toggle('visi');
+    bunsyou.innerText='';
+    hosoku.innerText='';
+    bunsyou.innerText='適用されました';
+    hosoku.innerText='スクランブルの結果が適用されました。確認したらスタートボタンを押してください。';
 }
 mouitido.addEventListener('mouseover', () => {
     poppu.style.display = 'block';
@@ -2453,3 +2741,361 @@ tekiyou.addEventListener('mouseover', () => {
 tekiyou.addEventListener('mouseleave', () => {
     poppo.style.display = 'none';
 }, false);
+function kazoemaasyou(){
+    let kazokaa=0;
+    for (let iiii = 0; iiii < toukatusimasyou.length; iiii++) {
+        if(toukatusimasyou[iiii]<100){
+            if(toukatusimasyou[iiii]<22 || toukatusimasyou[iiii]>27){
+                kazokaa++;
+            }
+            if(toukatusimasyou[iiii]===12 || toukatusimasyou[iiii]===13 || toukatusimasyou[iiii]===14 || toukatusimasyou[iiii]===15 || toukatusimasyou[iiii]===34){
+                kazokaa++;
+            }
+        }
+    }
+    tesuutesuu.innerText='';
+    tesuutesuu.innerText=kazokaa;
+}
+setumeisurutoko.onclick=()=>{
+    oooumo.style.display='block';
+    setumeisuru.style.display='block';
+}
+sakuzyoaikon.onclick=()=>{
+    document.getElementsByClassName('tuke')[0].classList.toggle('tuke');
+    document.getElementsByClassName('nyakanyaka')[0].classList.toggle('tuke');
+    oooumo.style.display='none';
+    setumeisuru.style.display='none';
+    if(koredake!==0){
+        ugokasitadesyou();
+        hyouzisitadesyou();
+    }
+}
+function uenomonowo(){
+    for (let nannkai = 0; nannkai < annnakoto.length; nannkai++) {
+        annnakoto[nannkai].style.backgroundColor='silver';
+        konnnakoto[nannkai].style.backgroundColor='silver';
+        iinaiina[nannkai].style.backgroundColor='silver';
+        annnakoto[nannkai].innerText='';
+        konnnakoto[nannkai].innerText='';
+        iinaiina[nannkai].innerText='';
+    }
+    oooumo.style.display='block';
+    hyakuhitotume.style.visibility ="hidden";
+    hyakuhutatume.style.visibility ="hidden";
+    nyakanya.style.display='block';
+    oooumo.style.zIndex='125';
+    ueniku.style.display='none';
+    maeniku.style.display='none';
+    hidariniku.style.display='none';
+    ueniku.style.transform='rotate(-45deg) skew(15deg, 15deg) scale(0.66)';
+    hidariniku.style.transform='rotate(15deg) skew(15deg, 15deg) scale(0.66)';
+    maeniku.style.transform='rotate(-15deg) skew(-15deg, -15deg) scale(0.66)';
+    ueniku.style.zIndex='210';
+    hidariniku.style.zIndex='210';
+    maeniku.style.zIndex='210';
+    if(koredake===0){
+        document.getElementsByClassName('hyouzi')[1].classList.toggle('ima');
+        document.getElementsByClassName('hyouzi')[1].style.marginTop='-412px'
+    }
+    document.getElementsByClassName('sannkakuzyougi')[0].style.zIndex='175';
+    document.getElementsByClassName('sannkakuzyougi')[0].style.top='-125px';
+    document.getElementsByClassName('sannkakuzyougi')[0].style.left='5px';
+    document.getElementsByClassName('sannkakuzyougi')[0].style.transform='scale(0.66)'
+    if(tukuttemaire===0){
+        kaitennkigounosetumei();
+    }
+}
+function kaitennkigounosetumei(){
+    document.getElementsByClassName('dakara')[0].classList.toggle('dakara');
+    document.getElementsByClassName('damezyan')[0].classList.toggle('dakara');
+    for (let aaannn = 0; aaannn < 9; aaannn++) {
+        annnakoto[aaannn].style.backgroundColor='white';
+        konnnakoto[aaannn].style.backgroundColor='green';
+        iinaiina[aaannn].style.backgroundColor='orange';
+    }
+    ueniku.style.display='block';
+    ueniku.style.top='-387px';
+    ueniku.style.left='174.5px';
+    korekarasa.style.backgroundColor='#5bbee5';
+    hontokana.style.backgroundColor='skyblue';
+    tabunndakedo.style.backgroundColor='skyblue';
+    koredattekonotameni(mennnosuuzi*2);
+}
+sakuzyoikon.onclick=()=>{
+    if(tukuttemaire===2){
+        oooumo.style.display='none';
+    }
+    nyakanya.style.display='none';
+    ueniku.style.display='none';
+    oooumo.style.zIndex='75';
+    if(koredake===0){
+        document.getElementsByClassName('hyouzi')[1].classList.toggle('ima');
+        document.getElementsByClassName('hyouzi')[1].style.marginTop='0'
+    }
+    document.getElementsByClassName('sannkakuzyougi')[0].style.zIndex='1';
+    document.getElementsByClassName('sannkakuzyougi')[0].style.top='0';
+    document.getElementsByClassName('sannkakuzyougi')[0].style.left='0';
+    document.getElementsByClassName('sannkakuzyougi')[0].style.transform=''
+    document.getElementsByClassName('aratamete')[0].style.top='-2px';
+    document.getElementsByClassName('aratamete')[0].style.left='40px';
+    ueniku.style.transform='rotate(-45deg) skew(15deg, 15deg)';
+    hidariniku.style.transform='rotate(15deg) skew(15deg, 15deg)';
+    maeniku.style.transform='rotate(-15deg) skew(-15deg, -15deg)';
+    ueniku.style.top='-298px';
+    ueniku.style.left='174px';
+    hidariniku.style.top='-152px';
+    hidariniku.style.left='90px';
+    maeniku.style.top='-151.5px';
+    maeniku.style.left='258px';
+    ueniku.style.zIndex='60';
+    hidariniku.style.zIndex='60';
+    maeniku.style.zIndex='60';
+    hidariueniiku.style.display='none';
+    migiueniiku.style.display='none';
+    hidariniiku.style.display='none';
+    miginiiku.style.display='none';
+    hidarisitaniiku.style.display='none';
+    migisitaniiku.style.display='none';
+}
+Umen.onclick=()=>{
+    korekarasa.innerText='';
+    hontokana.innerText='';
+    tabunndakedo.innerText='';
+    korekarasa.innerText='U';
+    hontokana.innerText="U'";
+    tabunndakedo.innerText='U2';
+    mennnosuuzi=0;
+    tukuttemaire=0;
+    uenomonowo();
+}
+Dmen.onclick=()=>{
+    korekarasa.innerText='';
+    hontokana.innerText='';
+    tabunndakedo.innerText='';
+    korekarasa.innerText='D';
+    hontokana.innerText="D'";
+    tabunndakedo.innerText='D2';
+    mennnosuuzi=3;
+    tukuttemaire=0;
+    uenomonowo();
+}
+Rmen.onclick=()=>{
+    korekarasa.innerText='';
+    hontokana.innerText='';
+    tabunndakedo.innerText='';
+    korekarasa.innerText='R';
+    hontokana.innerText="R'";
+    tabunndakedo.innerText='R2';
+    mennnosuuzi=1;
+    tukuttemaire=0;
+    uenomonowo();
+}
+Lmen.onclick=()=>{
+    korekarasa.innerText='';
+    hontokana.innerText='';
+    tabunndakedo.innerText='';
+    korekarasa.innerText='L';
+    hontokana.innerText="L'";
+    tabunndakedo.innerText='L2';
+    mennnosuuzi=2;
+    tukuttemaire=0;
+    uenomonowo();
+}
+Fmen.onclick=()=>{
+    korekarasa.innerText='';
+    hontokana.innerText='';
+    tabunndakedo.innerText='';
+    korekarasa.innerText='F';
+    hontokana.innerText="F'";
+    tabunndakedo.innerText='F2';
+    mennnosuuzi=4;
+    tukuttemaire=0;
+    uenomonowo();
+}
+Bmen.onclick=()=>{
+    korekarasa.innerText='';
+    hontokana.innerText='';
+    tabunndakedo.innerText='';
+    korekarasa.innerText='B';
+    hontokana.innerText="B'";
+    tabunndakedo.innerText='B2';
+    mennnosuuzi=5;
+    tukuttemaire=0;
+    uenomonowo();
+}
+korekarasa.onclick=()=>{
+    korekarasa.style.backgroundColor='#5bbee5';
+    hontokana.style.backgroundColor='skyblue';
+    tabunndakedo.style.backgroundColor='skyblue';
+    koredattekonotameni(mennnosuuzi*2);
+}
+hontokana.onclick=()=>{
+    hontokana.style.backgroundColor='#5bbee5';
+    korekarasa.style.backgroundColor='skyblue';
+    tabunndakedo.style.backgroundColor='skyblue';
+    koredattekonotameni(mennnosuuzi*2+1);
+}
+tabunndakedo.onclick=()=>{
+    tabunndakedo.style.backgroundColor='#5bbee5';
+    korekarasa.style.backgroundColor='skyblue';
+    hontokana.style.backgroundColor='skyblue';
+    koredattekonotameni(mennnosuuzi+28);
+}
+function koredattekonotameni(nibaisareteru){
+    hourensouda.unshift(nibaisareteru);
+    ugokasitadesyou();
+    hourensouda.shift();
+}
+kaminosuuzi.onclick=()=>{
+    document.getElementsByClassName('tuke')[0].classList.toggle('tuke');
+    document.getElementsByClassName('nyakanyaka')[2].classList.toggle('tuke');
+}
+HTM.onclick=()=>{
+    document.getElementsByClassName('tuke')[0].classList.toggle('tuke');
+    document.getElementsByClassName('nyakanyaka')[1].classList.toggle('tuke');
+}
+CFOP.onclick=()=>{
+    document.getElementsByClassName('tuke')[0].classList.toggle('tuke');
+    document.getElementsByClassName('nyakanyaka')[3].classList.toggle('tuke');
+}
+setumeisurut.onclick=()=>{
+    document.getElementsByClassName('tuke')[0].classList.toggle('tuke');
+    document.getElementsByClassName('nyakanyaka')[1].classList.toggle('tuke');
+    oooumo.style.display='block';
+    setumeisuru.style.display='block';
+}
+kurosunonamae.onclick=()=>{
+    basyodori.innerText='';
+    basyodori.innerText='1.白クロス';
+    tukuttemaire=1;
+    uenomonowo();
+    document.getElementsByClassName('sannkakuzyougi')[0].style.top='-115px';
+    document.getElementsByClassName('sannkakuzyougi')[0].style.left='25px';
+    document.getElementsByClassName('sannkakuzyougi')[0].style.transform='scale(0.66) rotate(180deg)'
+    ueniku.style.display='block';
+    ueniku.style.top='-236px';
+    ueniku.style.left='177.5px';
+    document.getElementsByClassName('dakara')[0].classList.toggle('dakara');
+    document.getElementsByClassName('damezyan')[1].classList.toggle('dakara');
+    annnakoto[1].style.backgroundColor='white';
+    annnakoto[3].style.backgroundColor='white';
+    annnakoto[4].style.backgroundColor='white';
+    annnakoto[5].style.backgroundColor='white';
+    annnakoto[7].style.backgroundColor='white';
+}
+sitanidann.onclick=()=>{
+    basyodori.innerText='';
+    basyodori.innerText='2.F2L';
+    tukuttemaire=1;
+    uenomonowo();
+    document.getElementsByClassName('sannkakuzyougi')[0].style.top='-105px';
+    document.getElementsByClassName('dakara')[0].classList.toggle('dakara');
+    document.getElementsByClassName('damezyan')[1].classList.toggle('dakara');
+    for (let aann = 3; aann < 9; aann++) {
+        konnnakoto[aann].style.backgroundColor='blue';
+        iinaiina[aann].style.backgroundColor='orange';
+    }
+}
+uedannnomuki.onclick=()=>{
+    basyodori.innerText='';
+    basyodori.innerText='3.OLL';
+    tukuttemaire=1;
+    uenomonowo();
+    document.getElementsByClassName('sannkakuzyougi')[0].style.top='-105px';
+    document.getElementsByClassName('dakara')[0].classList.toggle('dakara');
+    document.getElementsByClassName('damezyan')[1].classList.toggle('dakara');
+    annnakoto[0].style.backgroundColor='yellow';
+    annnakoto[1].style.backgroundColor='yellow';
+    annnakoto[2].style.backgroundColor='yellow';
+    for (let aaann = 3; aaann < 9; aaann++) {
+        annnakoto[aaann].style.backgroundColor='yellow';
+        konnnakoto[aaann].style.backgroundColor='blue';
+        iinaiina[aaann].style.backgroundColor='orange';
+    }
+}
+uedannnoiti.onclick=()=>{
+    basyodori.innerText='';
+    basyodori.innerText='4.PLL';
+    tukuttemaire=1;
+    uenomonowo();
+    document.getElementsByClassName('sannkakuzyougi')[0].style.top='-105px';
+    document.getElementsByClassName('dakara')[0].classList.toggle('dakara');
+    document.getElementsByClassName('damezyan')[1].classList.toggle('dakara');
+    for (let aannn = 0; aannn < 9; aannn++) {
+        annnakoto[aannn].style.backgroundColor='yellow';
+        konnnakoto[aannn].style.backgroundColor='blue';
+        iinaiina[aannn].style.backgroundColor='orange';
+    }
+}
+zyoukyoukakuninnyou.onclick=()=>{
+    tukuttemaire=2;
+    uenomonowo();
+    document.getElementsByClassName('dakara')[0].classList.toggle('dakara');
+    document.getElementsByClassName('damezyan')[2].classList.toggle('dakara');
+    document.getElementsByClassName('sannkakuzyougi')[0].style.top='-375px';
+    document.getElementsByClassName('aratamete')[0].style.top='10px';
+    document.getElementsByClassName('aratamete')[0].style.left='37.5px';
+    ueniku.style.top='-688px';
+    ueniku.style.left='174.5px';
+    hidariniku.style.top='-591.5px';
+    hidariniku.style.left='119px';
+    maeniku.style.top='-591.5px';
+    maeniku.style.left='230px';
+    hidariueniiku.style.display='block';
+    migiueniiku.style.display='block';
+    hidariniiku.style.display='block';
+    miginiiku.style.display='block';
+    hidarisitaniiku.style.display='block';
+    migisitaniiku.style.display='block';
+    uedato.length=0;
+    maedato.length=0;
+    migidato.length=0;
+    usirodato.length=0;
+    hidaridato.length=0;
+    sitadato.length=0;
+    for (let tuketuke = 0; tuketuke < 9; tuketuke++) {
+        uedato.push(siro[tuketuke]);
+        maedato.push(midori[tuketuke]);
+        migidato.push(aka[tuketuke]);
+        usirodato.push(ao[tuketuke]);
+        hidaridato.push(daidai[tuketuke]);
+        sitadato.push(kiiro[tuketuke]);
+    }
+    hyouzisitadesyou();
+}
+hidariueniiku.onclick=()=>{
+    hourensouda.unshift(24);
+    inonotarou();
+    hyouzisitadesyou();
+    hourensouda.shift();
+}
+migisitaniiku.onclick=()=>{
+    hourensouda.unshift(25);
+    inonotarou();
+    hyouzisitadesyou();
+    hourensouda.shift();
+}
+hidariniiku.onclick=()=>{
+    hourensouda.unshift(22);
+    inonotarou();
+    hyouzisitadesyou();
+    hourensouda.shift();
+}
+miginiiku.onclick=()=>{
+    hourensouda.unshift(23);
+    inonotarou();
+    hyouzisitadesyou();
+    hourensouda.shift();
+}
+hidarisitaniiku.onclick=()=>{
+    hourensouda.unshift(27);
+    inonotarou();
+    hyouzisitadesyou();
+    hourensouda.shift();
+}
+migiueniiku.onclick=()=>{
+    hourensouda.unshift(26);
+    inonotarou();
+    hyouzisitadesyou();
+    hourensouda.shift();
+}
